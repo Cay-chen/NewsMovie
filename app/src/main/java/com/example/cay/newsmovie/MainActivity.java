@@ -22,7 +22,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.example.cay.newsmovie.VerUpdata.VersionUpdateManager;
 import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
+import com.example.cay.newsmovie.bean.VersionUpdataBean;
 import com.example.cay.newsmovie.databinding.ActivityMainBinding;
 import com.example.cay.newsmovie.statusbar.StatusBarUtil;
 import com.example.cay.newsmovie.ui.fragment.GankFragment;
@@ -41,10 +44,13 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.tencent.bugly.crashreport.CrashReport;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.Call;
 import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        versionUpdateJianCe();
     }
 
     private void initVivws() {
@@ -295,9 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "再按一次返回桌面", Toast.LENGTH_SHORT).show();
                 time = System.currentTimeMillis();
             } else {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);
+               finish();
             }
             return true;
         } else {
@@ -340,5 +345,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+    /**
+     * 版本更新数据监测
+     */
+
+    private void versionUpdateJianCe() {
+        OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/VersionUpdataServer").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                List<VersionUpdataBean> list1 = JSON.parseArray(response, VersionUpdataBean.class);
+                responseVersionUpdate(list1);
+            }
+        });
+
+
+    }
+
+    /**
+     * 请求版本更新的响应
+     */
+    public void responseVersionUpdate(List<VersionUpdataBean> responses) {
+        if (responses.size() < 1) {
+            return;
+        }
+        VersionUpdataBean versionUpdate = responses.get(0);
+        VersionUpdateManager update = new VersionUpdateManager(this,
+                versionUpdate.getVersion(), versionUpdate.getURLaddress());
+        // 强制更新
+        if (versionUpdate.getForcedUpdate() == 1) {
+            update.setForcedUpdate(true);
+            update.setTitle(this.getResources().getString(
+                    R.string.version_update_tips_force));
+        }
+        update.setShowResult(false);
+        update.startUpdate();
+
     }
 }
