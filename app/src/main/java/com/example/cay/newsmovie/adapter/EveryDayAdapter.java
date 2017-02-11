@@ -16,6 +16,7 @@ import com.example.cay.newsmovie.activity.OneMovieDetailActivity;
 import com.example.cay.newsmovie.base.adapter.MultipleItem;
 import com.example.cay.newsmovie.utils.rx.RxBus;
 import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
+import com.example.cay.newsmovie.webview.WebViewActivity;
 
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_one_photo);
                 Glide.with(context).load(item.getImg1()).into(mImageView);
-                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type());
+                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type(),item.getImg2());
                 helper.setText(R.id.tv_one_photo_title, item.getCon1());
                 break;
             case MultipleItem.TWO:
@@ -63,11 +64,11 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_two_one_one);
                 Glide.with(context).load(item.getImg1()).into(mImageView);
-                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type());
+                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type(),null);
                 helper.setText(R.id.tv_two_one_one_title, item.getCon1());
                 mImageView = helper.getView(R.id.iv_two_one_two);
                 Glide.with(context).load(item.getImg2()).into(mImageView);
-                itemOnclick(mImageView,item.getMid2(),item.getImg2(),item.getG_type());
+                itemOnclick(mImageView,item.getMid2(),item.getImg2(),item.getG_type(),null);
                 helper.setText(R.id.tv_two_one_two_title, item.getCon2());
                 break;
             case MultipleItem.TRE:
@@ -76,15 +77,15 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_three_one_one);
                 Glide.with(context).load(item.getImg1()).into(mImageView);
-                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type());
+                itemOnclick(mImageView,item.getMid1(),item.getImg1(),item.getG_type(),null);
                 helper.setText(R.id.tv_three_one_one_title, item.getCon1());
                 mImageView = helper.getView(R.id.iv_three_one_two);
                 Glide.with(context).load(item.getImg2()).into(mImageView);
-                itemOnclick(mImageView,item.getMid2(),item.getImg2(),item.getG_type());
+                itemOnclick(mImageView,item.getMid2(),item.getImg2(),item.getG_type(),null);
                 helper.setText(R.id.tv_three_one_two_title, item.getCon2());
                 mImageView = helper.getView(R.id.iv_three_one_three);
                 Glide.with(context).load(item.getImg3()).into(mImageView);
-                itemOnclick(mImageView,item.getMid3(),item.getImg3(),item.getG_type());
+                itemOnclick(mImageView,item.getMid3(),item.getImg3(),item.getG_type(),null);
                 helper.setText(R.id.tv_three_one_three_title, item.getCon3());
                 break;
         }
@@ -113,14 +114,14 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
         }
     }
 
-    public void itemOnclick(final ImageView view, final String id, final String img_url, final String type) {
+    public void itemOnclick(final ImageView view, final String id, final String img_url, final String type,final String gaoguang_url) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (type.equals("1")) {
                     OneMovieDetailActivity.startE((Activity) context, id, img_url, view);
                 } else {
-                    Toast.makeText(context,"这是广告",Toast.LENGTH_LONG).show();
+                    WebViewActivity.loadUrl(context,gaoguang_url,"加载中");
                 }
             }
         });

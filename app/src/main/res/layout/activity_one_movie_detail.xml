@@ -5,7 +5,6 @@
     <data>
 
 
-
         <!--引用bean-->
         <variable
             name="bean"
@@ -49,7 +48,7 @@
             </LinearLayout>
 
             <!--又名-->
-<!--            android:text='@{StringFormatUtil.formatGenres(bean.aka)}'-->
+            <!--            android:text='@{StringFormatUtil.formatGenres(bean.aka)}'-->
             <TextView
                 android:id="@+id/tv_one_title"
                 android:layout_width="wrap_content"
@@ -80,9 +79,9 @@
                     android:textColor="@color/colorContent"
                     android:textSize="17sp" />
             </LinearLayout>
-<!--
-            android:text="@{bean.synopsis}"
--->
+            <!--
+                        android:text="@{bean.synopsis}"
+            -->
 
             <TextView
                 android:id="@+id/tv_one_contiont"
@@ -93,6 +92,7 @@
                 android:text="juqing"
                 android:textColor="@color/colorTitle"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,6 +123,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible" />
+
+            <include layout="@layout/footer_item_movie_log"/>
 
         </LinearLayout>
 

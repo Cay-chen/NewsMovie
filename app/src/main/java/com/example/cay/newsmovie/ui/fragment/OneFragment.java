@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -135,7 +136,7 @@ private String getDataUri = "http://60.205.183.88:8080/VMovie/Data";
             @Override
             public void onError(Call call, Exception e, int id) {
                 mSwipeRefreshLayout.setRefreshing(false);
-               // Toast.makeText(activity,"刷新失败",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity,"刷新失败",Toast.LENGTH_LONG).show();
               //  StyleableToast.makeText(activity, "刷新失败", Toast.LENGTH_SHORT, R.style.ToolbarStyle);
             }
 

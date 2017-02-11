@@ -1,6 +1,8 @@
 package com.example.cay.newsmovie;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,17 +13,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import android.widget.Toast;
 
 import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
 import com.example.cay.newsmovie.databinding.ActivityMainBinding;
 import com.example.cay.newsmovie.statusbar.StatusBarUtil;
-import com.example.cay.newsmovie.ui.fragment.BookFragment;
 import com.example.cay.newsmovie.ui.fragment.GankFragment;
+import com.example.cay.newsmovie.ui.fragment.GankFragment1;
 import com.example.cay.newsmovie.ui.fragment.OneFragment;
 import com.example.cay.newsmovie.ui.menu.NavAboutActivity;
 import com.example.cay.newsmovie.ui.menu.NavDeedBackActivity;
@@ -32,6 +37,11 @@ import com.example.cay.newsmovie.utils.ImgLoadUtil;
 import com.example.cay.newsmovie.utils.rx.RxBus;
 import com.example.cay.newsmovie.utils.rx.RxBusBaseMessage;
 import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 
@@ -45,12 +55,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView llTitleDou;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private long time = 0;
 
     private NavigationView navView;
     private FrameLayout llTitleMenu;
     private DrawerLayout drawerLayout;
 
     private ViewPager vpContent;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initDrawerLayout();
         initListener();
         initRxBus();
+        //   CrashReport.testJavaCrash();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void initVivws() {
@@ -110,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Fragment> mFragmentList = new ArrayList<>();
         mFragmentList.add(new GankFragment());
         mFragmentList.add(new OneFragment());
-        mFragmentList.add(new BookFragment());
+        mFragmentList.add(new GankFragment1());
         // 注意使用的是：getSupportFragmentManager
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
         vpContent.setAdapter(adapter);
@@ -230,6 +250,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+//                Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onPageScrollStateChanged(int state) {
 
     }
@@ -245,5 +283,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mBinding.include.vpContent.setCurrentItem(1);
                     }
                 });
+    }
+
+    /**
+     * 双击返回桌面
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - time > 1000)) {
+                Toast.makeText(this, "再按一次返回桌面", Toast.LENGTH_SHORT).show();
+                time = System.currentTimeMillis();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+            }
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

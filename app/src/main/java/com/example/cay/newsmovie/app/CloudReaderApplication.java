@@ -3,6 +3,7 @@ package com.example.cay.newsmovie.app;
 import android.app.Application;
 
 import com.example.cay.newsmovie.http.HttpUtils;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -37,6 +38,8 @@ public class CloudReaderApplication extends Application {
         cloudReaderApplication = this;
         HttpUtils.getInstance().setContext(getApplicationContext());
         movieIp();
+        CrashReport.initCrashReport(getApplicationContext());
+
     }
     public static void movieIp() {
         OkHttpUtils.get().url(MOVIE_IP_URL).build().execute(new StringCallback() {

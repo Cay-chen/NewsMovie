@@ -187,13 +187,13 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
        final List<String> idList =Arrays.asList(id);
         mBanner = mHeaderBinding.banner;
         //设置banner样式
-        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         mBanner.setImages(Arrays.asList(img));
         //设置banner动画效果
-        mBanner.setBannerAnimation(Transformer.Accordion);
+        mBanner.setBannerAnimation(Transformer.Default);
         //设置标题集合（当banner样式有显示title时）
         mBanner.setBannerTitles(Arrays.asList(titles));
         //设置自动轮播，默认为true
@@ -201,7 +201,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         //设置轮播时间
         mBanner.setDelayTime(5000);
         //设置指示器位置（当banner模式中有指示器时）
-        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
+        mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerClickListener(new OnBannerClickListener() {
             @Override
             public void OnBannerClick(int position) {

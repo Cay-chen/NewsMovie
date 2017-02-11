@@ -63,7 +63,7 @@ public class NewsDataAdapter extends BaseMultiItemQuickAdapter<MultipleItemNews,
         helper.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebViewActivity.loadUrl(context,item.getUrl(),item.getTitle());
+                WebViewActivity.loadUrl(context,item.getUrl(),"加载中……");
             }
         });
     }
