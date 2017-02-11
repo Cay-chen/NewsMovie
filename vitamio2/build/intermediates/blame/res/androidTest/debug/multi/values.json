@@ -1,0 +1,357 @@
+[
+    {
+        "outputFile": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 54,
+                    "endOffset": 105
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 54,
+                        "endOffset": 105
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 110,
+                    "endColumn": 62,
+                    "endOffset": 168
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 110,
+                        "endColumn": 62,
+                        "endOffset": 168
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 173,
+                    "endColumn": 47,
+                    "endOffset": 216
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 173,
+                        "endColumn": 47,
+                        "endOffset": 216
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 221,
+                    "endColumn": 53,
+                    "endOffset": 270
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 221,
+                        "endColumn": 53,
+                        "endOffset": 270
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 275,
+                    "endLine": 8,
+                    "endColumn": 13,
+                    "endOffset": 422
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 275,
+                        "endLine": 8,
+                        "endColumn": 13,
+                        "endOffset": 422
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 427,
+                    "endColumn": 64,
+                    "endOffset": 487
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 427,
+                        "endColumn": 64,
+                        "endOffset": 487
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 492,
+                    "endColumn": 54,
+                    "endOffset": 542
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 492,
+                        "endColumn": 54,
+                        "endOffset": 542
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 547,
+                    "endColumn": 65,
+                    "endOffset": 608
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 547,
+                        "endColumn": 65,
+                        "endOffset": 608
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 613,
+                    "endColumn": 100,
+                    "endOffset": 709
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 613,
+                        "endColumn": 100,
+                        "endOffset": 709
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 714,
+                    "endColumn": 70,
+                    "endOffset": 780
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 714,
+                        "endColumn": 70,
+                        "endOffset": 780
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 785,
+                    "endColumn": 112,
+                    "endOffset": 893
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 785,
+                        "endColumn": 112,
+                        "endOffset": 893
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 898,
+                    "endColumn": 86,
+                    "endOffset": 980
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 898,
+                        "endColumn": 86,
+                        "endOffset": 980
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 985,
+                    "endLine": 17,
+                    "endColumn": 13,
+                    "endOffset": 1109
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 985,
+                        "endLine": 17,
+                        "endColumn": 13,
+                        "endOffset": 1109
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1114,
+                    "endColumn": 84,
+                    "endOffset": 1194
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1114,
+                        "endColumn": 84,
+                        "endOffset": 1194
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 1199,
+                    "endColumn": 72,
+                    "endOffset": 1267
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1199,
+                        "endColumn": 72,
+                        "endOffset": 1267
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1272,
+                    "endColumn": 67,
+                    "endOffset": 1335
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1272,
+                        "endColumn": 67,
+                        "endOffset": 1335
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 1340,
+                    "endLine": 30,
+                    "endColumn": 12,
+                    "endOffset": 1982
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1340,
+                        "endLine": 30,
+                        "endColumn": 12,
+                        "endOffset": 1982
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 1987,
+                    "endLine": 35,
+                    "endColumn": 12,
+                    "endOffset": 2192
+                },
+                "from": {
+                    "file": "E:\\AndroidStudioWorkspaces\\NewsMovie\\vitamio2\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1987,
+                        "endLine": 35,
+                        "endColumn": 12,
+                        "endOffset": 2192
+                    }
+                }
+            }
+        ]
+    }
+]
