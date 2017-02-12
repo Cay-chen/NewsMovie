@@ -46,6 +46,7 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     compile 'com.youth.banner:banner:1.4.8'
+    compile 'com.cocosw:bottomsheet:1.+@aar'
 
     compile project(':vitamio2')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'

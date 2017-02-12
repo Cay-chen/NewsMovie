@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/movie_all"
+        android:icon="@drawable/home_title_all"
+        android:title="全部" />
+    <item
+        android:id="@+id/movie_china_tv"
+        android:icon="@drawable/everydady_tv"
+        android:title="国内电视剧" />
+    <item
+        android:id="@+id/movie_china_video"
+        android:icon="@drawable/everydady_movie"
+        android:title="国内电影" />
+    <item
+        android:id="@+id/movie_usa_tv"
+        android:icon="@drawable/everydady_tv"
+        android:title="欧美电视剧" />
+
+    <item
+        android:id="@+id/movie_usa_video"
+        android:icon="@drawable/everydady_movie"
+        android:title="欧美电影" />
+    <item
+        android:id="@+id/movie_kor_tv"
+        android:icon="@drawable/everydady_tv"
+        android:title="韩国电视剧" />
+    <item
+        android:id="@+id/movie_kor_video"
+        android:icon="@drawable/everydady_movie"
+        android:title="韩国电影" />
+    <item
+        android:id="@+id/movie_dongman"
+        android:icon="@drawable/everydady_manga"
+        android:title="动漫" />
+</menu>

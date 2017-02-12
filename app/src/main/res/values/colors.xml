@@ -20,7 +20,7 @@
     <color name="colorBanTransparent">#11000000</color>
     <!--首页item文字颜色-->
     <color name="colorSubtitle">#999</color>
-
+    <color name="bg">#F0F0F0</color>
     <color name="colorTitle">#666</color>
     <!--谈红色  用于首页调整点击变色-->
     <color name="colorSmallRed">#faebeb</color>
@@ -38,6 +38,8 @@
     <color name="colorRateRed">#FB5B81</color>
     <!--首页分割线-->
     <color name="colorHomeLine">#d4d4d4</color>
+    <!--分割线-->
+    <color name="colorLine">#EBEBEB</color>
     <color name="white">#FFFFFF</color>
     <color name="cl_43cfac">#43CFAC</color>
 </resources>
