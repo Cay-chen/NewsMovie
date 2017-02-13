@@ -29,6 +29,7 @@ import com.example.cay.newsmovie.databinding.ActivitySearchMovieBinding;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import okhttp3.Call;
@@ -95,29 +96,10 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 
         mSearchView.setOnQueryTextListener(this);
-        /*mSearchView.setQueryHint(getResources().getString(R.string.search_net_music));
-        mSearchView.get*/
+        mSearchView.setQueryHint(getResources().getString(R.string.search_net_music));
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);
         mSearchView.setSubmitButtonEnabled(true);
-        //文字颜色
-        int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView searchText = (TextView) mSearchView.findViewById(id);
-        if (searchText != null) {
-            searchText.setText(getResources().getString(R.string.search_net_music));
-            searchText.setTextColor(Color.CYAN);
-            searchText.setHintTextColor(Color.CYAN);
-        }
-        /*    Field mCursorDrawableRes = null;
-        try {
-
-            mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-            mCursorDrawableRes.setAccessible(true);
-            mCursorDrawableRes.set(searchText, R.drawable.cursor_color);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
 
         MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.menu_search), new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -169,7 +151,6 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
         mOneAdapter.setNewData(null);
         mOneAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         mRecyclerView.setVisibility(View.VISIBLE);
-        Log.i(TAG, "name: " + name);
         mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -186,7 +167,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
                         if (list.size() == 0) {
                             mOneAdapter.setEmptyView(notDataView);
                         } else {
-                            title.setText("搜索到相关视频" + list.size() + "个");
+                            title.setText("搜索到与“"+name+"”相关视频" + list.size() + "个");
                             mOneAdapter.setNewData(list);
                         }
                     }

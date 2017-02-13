@@ -10,13 +10,14 @@
     </style>
     <!-- 网易红为主色调 -->
     <style name="MyThemeRed" parent="Theme.AppCompat.Light.NoActionBar">
-
         <!--选中状态icon的颜色和字体颜色-->
         <item name="colorPrimary">@color/colorTheme</item>
         <item name="colorPrimaryDark">@color/colorTheme</item>
-        <item name="colorAccent">@color/colorTheme</item>
+        <item name="colorAccent">@color/white</item>
         <!--正常状态下字体颜色和icon颜色-->
-        <!--<item name="android:textColorPrimary">@color/colorTheme</item>-->
+<!--
+       <item name="android:textColorPrimary">@color/colorLine</item>
+-->
     </style>
     <!--菜单item-->
     <style name="menuItem">
