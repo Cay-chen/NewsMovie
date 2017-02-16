@@ -1,6 +1,8 @@
 package com.example.cay.newsmovie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,7 +31,13 @@ public class MovieCountItemAdapter extends BaseQuickAdapter<MovieBean,BaseViewHo
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlayActivity.actionStart(context,item.getMovieUrl(),item.getMovieName());
+                if (item.getType() == 1) {
+                    PlayActivity.actionStart(context, item.getMovieUrl(), item.getMovieName());
+                } else {
+                    Uri issuesUrl = Uri.parse(item.getMovieUrl().trim());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);
+                    context.startActivity(intent);
+                }
             }
         });
     }

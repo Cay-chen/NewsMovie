@@ -6,7 +6,7 @@
     >
     <ImageView
         style="@style/empty_img"
-        android:src="@drawable/empty_icon"/>
+        android:src="@mipmap/icon"/>
 
     <TextView
         android:layout_marginTop="5dp"

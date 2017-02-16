@@ -224,7 +224,7 @@ public class MediaController extends FrameLayout {
       mRoot = makeControllerView();
       mWindow.setContentView(mRoot);
       mWindow.setWidth(LayoutParams.MATCH_PARENT);
-      mWindow.setHeight(LayoutParams.WRAP_CONTENT);
+      mWindow.setHeight(LayoutParams.MATCH_PARENT);
     }
     initControllerView(mRoot);
   }
@@ -341,7 +341,8 @@ public class MediaController extends FrameLayout {
 
         mWindow.setAnimationStyle(mAnimStyle);
         setWindowLayoutType();
-        mWindow.showAtLocation(mAnchor, Gravity.NO_GRAVITY, anchorRect.left, anchorRect.bottom);
+        android.util.Log.i("TAG", "show:X "+anchorRect.left+"y:"+anchorRect.bottom);
+        mWindow.showAtLocation(mAnchor, Gravity.TOP, anchorRect.left, anchorRect.bottom);
       }
       mShowing = true;
       if (mShownListener != null)

@@ -34,7 +34,6 @@ import io.vov.vitamio.widget.VideoView;
  * Vitamio视频播放框架Demo
  */
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, Runnable {
-    private static final String TAG = "Cay";
     //视频地址
     private String path ;
     private String mName;
@@ -75,10 +74,8 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInf
         //必须写这个，初始化加载库文件
         Vitamio.isInitialized(this);
         //设置视频解码监听
-       if (!LibsChecker.checkVitamioLibs(this)) {
-           return;
-      }
-        Log.i(TAG, "onCreate: " + nowPosition);
+        if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
+            return;
         setContentView(R.layout.activity_play);
         path = getIntent().getStringExtra("urlpath");
         mName=getIntent().getStringExtra("mName");
@@ -118,7 +115,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInf
         if (savedInstanceState != null) {
             isP = true;
             nowPosition = savedInstanceState.getLong("nowPosition");
-            Log.i(TAG, "savedInstanceState: ");
             mVideoView.seekTo(nowPosition);
         }
         mVideoView.setOnInfoListener(this);
@@ -132,7 +128,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInf
         mVideoView.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
             @Override
             public void onSeekComplete(MediaPlayer mp) {
-                Log.i(TAG, "onSeekComplete: ");
                 mCustomMediaController.show();
             }
         });
@@ -169,7 +164,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInf
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy: " + nowPosition);
         try {
             unregisterReceiver(batteryBroadcastReceiver);
         } catch (IllegalArgumentException ex) {
@@ -196,7 +190,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnInf
                     isP = false;
                     mVideoView.seekTo(nowPosition);
                 }
-                Log.i(TAG, "MEDIA_INFO_BUFFERING_END:isP " + isP);
                 mVideoView.start();
                 pb.setVisibility(View.GONE);
                 downloadRateView.setVisibility(View.GONE);

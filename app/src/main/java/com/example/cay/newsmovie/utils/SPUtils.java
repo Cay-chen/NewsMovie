@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import com.example.cay.newsmovie.app.CloudReaderApplication;
+import com.example.cay.newsmovie.app.MyApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class SPUtils {
      * @param fileName
      */
     private static SharedPreferences getSharedPreference(String fileName) {
-        return CloudReaderApplication.getInstance().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        return MyApplication.getInstance().getSharedPreferences(fileName, Context.MODE_PRIVATE);
     }
 
     /**

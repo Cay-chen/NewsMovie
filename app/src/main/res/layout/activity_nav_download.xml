@@ -20,7 +20,7 @@
             android:background="@drawable/shape_notclickbg"
             android:lineSpacingExtra="2dp"
             android:padding="12dp"
-            android:text="好用请推荐给你的小伙伴吧，使用微信、qq等扫描二维码，即可下载安装~"
+            android:text="好用请推荐给好友，用微信、qq等扫描二维码，即可下载安装~"
             android:textColor="#666666"
             android:textSize="15sp" />
 
@@ -42,7 +42,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="12dp"
-            android:text="分享云阅开源客户端"
+            android:text="分享V视客户端"
             android:textColor="@color/text_common"
             android:textSize="17sp" />
 
@@ -54,7 +54,7 @@
             android:lineSpacingExtra="2dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="如感到满意请Star一下吧，我们将继续迭代，增加更多功能，O(∩_∩)O ~"
+            android:text="如有问题请及时反馈我们，我们将继续迭代，增加更多功能，O(∩_∩)O"
             android:textColor="@color/colorSubtitle"
             android:textSize="14sp" />
     </LinearLayout>

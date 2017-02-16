@@ -2,17 +2,18 @@ package com.example.cay.newsmovie.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.content.Intent;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.activity.OneMovieDetailActivity;
+import com.example.cay.newsmovie.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.base.adapter.MultipleItem;
 import com.example.cay.newsmovie.utils.rx.RxBus;
 import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
@@ -119,9 +120,11 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
             @Override
             public void onClick(View v) {
                 if (type.equals("1")) {
-                    OneMovieDetailActivity.startE((Activity) context, id, img_url, view);
+                    MovieDetailActivity.startE((Activity) context, id, img_url, null);
                 } else {
-                    WebViewActivity.loadUrl(context,gaoguang_url,"加载中");
+                   Uri issuesUrl = Uri.parse(gaoguang_url.trim());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);
+                    context.startActivity(intent);
                 }
             }
         });

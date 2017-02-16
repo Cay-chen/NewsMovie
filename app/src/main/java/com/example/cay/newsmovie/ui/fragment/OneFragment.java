@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.example.cay.newsmovie.MainActivity;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.adapter.OneAdapter;
+import com.example.cay.newsmovie.adapter.MovieDetailsAdapter;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.databinding.FragmentOneBinding;
@@ -44,7 +44,7 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
     private boolean mIsLoading = false;
     private MainActivity activity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private OneAdapter oneAdapter;
+    private MovieDetailsAdapter movieDetailsAdapter;
     private RecyclerView mRecyclerView;
     private List<MovieDataBean> mList;
     private static final String TAG = "Cay";
@@ -85,7 +85,7 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
         OkHttpUtils.get().url(getDataUri).addParams("position", "0").addParams("num", "10").build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                showError();
             }
 
             @Override
@@ -94,29 +94,27 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                 nowPosition = String.valueOf(mList.size());
                 initAdapter(mList);
                 showContentView();
-                isFirst = true;
+                isFirst = false;
             }
         });
     }
 
     private void initAdapter(List<MovieDataBean> data) {
-        oneAdapter = new OneAdapter(R.layout.item_one1, data, activity);
-        oneAdapter.setOnLoadMoreListener(this);
-        mRecyclerView.setAdapter(oneAdapter);
+        movieDetailsAdapter = new MovieDetailsAdapter(R.layout.item_one1, data, activity);
+        movieDetailsAdapter.setOnLoadMoreListener(this);
+        mRecyclerView.setAdapter(movieDetailsAdapter);
         addHeadView();
-        if (data.size() < 5) {
-            oneAdapter.loadMoreEnd(true);
+        if (data.size() < 10) {
+            movieDetailsAdapter.loadMoreEnd(true);
         }
 
     }
 
     private void addHeadView() {
         View mHeaderView = View.inflate(getContext(), R.layout.header_item_all_movie, null);
-        oneAdapter.addHeaderView(mHeaderView);
+        movieDetailsAdapter.addHeaderView(mHeaderView);
         initHeader(mHeaderView);
         mTitle = (TextView) mHeaderView.findViewById(R.id.tx_name);
-        //View headView = activity.getLayoutInflater().inflate(R.layout.header_item_one, (ViewGroup) mRecyclerView.getParent(), false);
-        // ((TextView) headView.findViewById(R.id.header_title)).setText("所有电影");
     }
 
     @Override
@@ -150,17 +148,15 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                         httpGetData("movie_type", "动画", null, null, nowPosition, FIRST_LOAD_MORE_NUM, false);
                         break;
                 }
-
-
             }
-        }, 1000);
+        }, 800);
 
     }
 
     @Override
     public void onRefresh() {
         showLoading();
-        oneAdapter.setEnableLoadMore(false);
+        movieDetailsAdapter.setEnableLoadMore(false);
         nowPosition ="0";
         switch (loadWhere) {
             case 0:
@@ -299,8 +295,13 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                 OkHttpUtils.get().url(getDataUri).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                        if (isRefresh) {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                        }else {
+                            movieDetailsAdapter.loadMoreFail();
+                        }
+
                     }
                     @Override
                     public void onResponse(String response, int id) {
@@ -308,33 +309,35 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                         mList = JSON.parseArray(response, MovieDataBean.class);
                         if (isRefresh) {
                             Log.i(TAG, "刷新请求:");
-                            oneAdapter.setNewData(mList);
+                            movieDetailsAdapter.setNewData(mList);
                             nowPosition = String.valueOf(mList.size());
                             if (mList.size() < 5) {
-                                oneAdapter.loadMoreEnd(true);
+                                movieDetailsAdapter.loadMoreEnd(true);
                             }
                             mSwipeRefreshLayout.setRefreshing(false);
-                            oneAdapter.setEnableLoadMore(true);
+                            movieDetailsAdapter.setEnableLoadMore(true);
                             showContentView();
                         } else {
                             Log.i(TAG, "加载请求:");
-                            oneAdapter.addData(mList);
-                            nowPosition = String.valueOf(oneAdapter.getData().size());
-                            oneAdapter.loadMoreComplete();
+                            movieDetailsAdapter.addData(mList);
+                            nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
+                            movieDetailsAdapter.loadMoreComplete();
                             if (mList.size() < 3) {
-                                oneAdapter.loadMoreEnd(false);
+                                movieDetailsAdapter.loadMoreEnd(false);
                             }
                         }
 
                     }
                 });
-                System.out.println("全部条查询");
             } else {
                 OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/FindDataServer").addParams("type", type1).addParams("value", value1).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                        if (isRefresh) {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                        }else {
+                            movieDetailsAdapter.loadMoreFail();                        }
                     }
 
                     @Override
@@ -342,21 +345,21 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                         mList = JSON.parseArray(response, MovieDataBean.class);
                         if (isRefresh) {
                             Log.i(TAG, "刷新请求:");
-                            oneAdapter.setNewData(mList);
+                            movieDetailsAdapter.setNewData(mList);
                             nowPosition = String.valueOf(mList.size());
                            /* if (mList.size() < 5) {
-                                oneAdapter.loadMoreEnd(true);
+                                movieDetailsAdapter.loadMoreEnd(true);
                             }*/
-                            oneAdapter.loadMoreComplete();
-                            oneAdapter.loadMoreEnd(false);
+                            movieDetailsAdapter.loadMoreComplete();
+                            movieDetailsAdapter.loadMoreEnd(false);
                             mSwipeRefreshLayout.setRefreshing(false);
-                            //oneAdapter.setEnableLoadMore(true);
+                            //movieDetailsAdapter.setEnableLoadMore(true);
                             showContentView();
                         } else {
                             Log.i(TAG, "加载请求:");
-                            oneAdapter.addData(mList);
-                           // nowPosition = String.valueOf(oneAdapter.getData().size());
-                           // oneAdapter.loadMoreComplete();
+                            movieDetailsAdapter.addData(mList);
+                           // nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
+                           // movieDetailsAdapter.loadMoreComplete();
 
                         }
                     }
@@ -367,8 +370,11 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
             OkHttpUtils.get().url(getDataUri).addParams("type1", type1).addParams("value1", value1).addParams("type2", type2).addParams("value2", value2).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                    if (isRefresh) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
+                    } else {
+                        movieDetailsAdapter.loadMoreFail();                    }
                 }
 
                 @Override
@@ -376,21 +382,21 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                     mList = JSON.parseArray(response, MovieDataBean.class);
                     if (isRefresh) {
                         Log.i(TAG, "刷新请求:");
-                        oneAdapter.setNewData(mList);
+                        movieDetailsAdapter.setNewData(mList);
                         nowPosition = String.valueOf(mList.size());
                         if (mList.size() < 5) {
-                            oneAdapter.loadMoreEnd(true);
+                            movieDetailsAdapter.loadMoreEnd(true);
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        oneAdapter.setEnableLoadMore(true);
+                        movieDetailsAdapter.setEnableLoadMore(true);
                         showContentView();
                     } else {
                         Log.i(TAG, "加载请求:");
-                        oneAdapter.addData(mList);
-                        nowPosition = String.valueOf(oneAdapter.getData().size());
-                        oneAdapter.loadMoreComplete();
+                        movieDetailsAdapter.addData(mList);
+                        nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
+                        movieDetailsAdapter.loadMoreComplete();
                         if (mList.size() < 3) {
-                            oneAdapter.loadMoreEnd(false);
+                            movieDetailsAdapter.loadMoreEnd(false);
                         }
                     }
                 }

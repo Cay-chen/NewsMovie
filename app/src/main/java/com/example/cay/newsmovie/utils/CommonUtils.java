@@ -11,7 +11,7 @@ import android.view.ViewParent;
 import android.view.WindowManager;
 
 
-import com.example.cay.newsmovie.app.CloudReaderApplication;
+import com.example.cay.newsmovie.app.MyApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +57,7 @@ public class CommonUtils {
     }
 
 //	public static void RunOnUiThread(Runnable r) {
-//		CloudReaderApplication.getInstance().getMainLooper().post(r);
+//		MyApplication.getInstance().getMainLooper().post(r);
 //	}
 
     public static Drawable getDrawable(int resid) {
@@ -69,7 +69,7 @@ public class CommonUtils {
     }
 
     public static Resources getResoure() {
-        return CloudReaderApplication.getInstance().getResources();
+        return MyApplication.getInstance().getResources();
     }
 
     public static String[] getStringArray(int resid) {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_movie_name"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="肖生克级救赎"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/tv_movie_time"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_movie_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="2016-05-29 23:12:02"/>
+    <ImageView
+        android:id="@+id/iv_movie_pass"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/movie_refuse"/>
+
+
+</RelativeLayout>

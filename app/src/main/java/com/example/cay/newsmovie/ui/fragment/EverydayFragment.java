@@ -17,9 +17,10 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.example.cay.newsmovie.MainActivity;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.activity.OneMovieDetailActivity;
+import com.example.cay.newsmovie.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.adapter.EveryDayAdapter;
 import com.example.cay.newsmovie.base.GlideImageLoader;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
@@ -65,12 +66,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
 
     private View mHeaderView;
     private View mFooterView;
-    private boolean mIsPrepared = false;
     private boolean mIsFirst = true;
-    // 是否正在刷新（避免重复刷新）
-    private boolean mIsLoading = false;
-    // 是否是上一天的请求
-    private boolean isOldDayRequest;
     private RotateAnimation animation;
     private EveryDayAdapter mEveryDayAdapter;
     private MainActivity activity;
@@ -88,12 +84,34 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         super.onAttach(context);
         activity = (MainActivity) context;
     }
+    @Override
+    protected void onInvisible() {
+        // 不可见时轮播图停止滚动
+        if (mHeaderBinding != null && mHeaderBinding.banner != null) {
+            mHeaderBinding.banner.stopAutoPlay();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 失去焦点，否则recyclerview第一个item会回到顶部
+        bindingView.xrvEveryday.setFocusable(false);
+        // 开始图片请求
+        Glide.with(getActivity()).resumeRequests();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        // 停止全部图片请求 跟随着Activity
+        Glide.with(getActivity()).pauseRequests();
+
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-//        showLoading();
         showContentView();
         bindingView.llLoading.setVisibility(View.VISIBLE);
         animation = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -116,9 +134,16 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         });
         mFooterView = mFooterBinding.getRoot();
         initRecyulerView();
-        initFirstData();
-        initData();
 
+
+    }
+
+    @Override
+    protected void loadData() {
+        if (mIsFirst) {
+            initData();
+            initFirstData();
+        }
 
     }
 
@@ -136,7 +161,13 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/FirstRxDataServer").build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                initFirstData();
+                mRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showError();
+                    }
+                },3000);
+
             }
 
             @Override
@@ -148,14 +179,19 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
                     FirstRxDataBean bean = mList.get(i);
                     mmList.add(new MultipleItem(bean.getType(), bean.getImg1(), bean.getMid1(), bean.getCon1(), bean.getImg2(), bean.getMid2(), bean.getCon2(), bean.getImg3(), bean.getMid3(), bean.getCon3(), bean.getG_type(), bean.getTitle(), bean.getIsTitle()));
                 }
-             /*   MultipleItem cc = mmList.get(1);
-                cc.gett*/
-                mEveryDayAdapter = new EveryDayAdapter(getContext(), mmList);
+                mEveryDayAdapter = new EveryDayAdapter(activity, mmList);
                 mEveryDayAdapter.addHeaderView(mHeaderView);
                 mEveryDayAdapter.addFooterView(mFooterView);
                 mRecyclerView.setAdapter(mEveryDayAdapter);
-                mRecyclerView.setVisibility(View.VISIBLE);
-                bindingView.llLoading.setVisibility(View.GONE);
+                mIsFirst = false;
+                mRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showRotaLoading(false);
+                    }
+                },800);
+
+
             }
         });
 
@@ -166,7 +202,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/BannerDataServer").build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                initData();
             }
 
             @Override
@@ -177,6 +213,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
                     String[] movieIds = bannerDataBean.getMovieIds();
                     String[] types = bannerDataBean.getTypes();
                 initBanner(imgs,titles,movieIds,types);
+                mIsFirst = false;
             }
         });
 
@@ -205,7 +242,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         mBanner.setOnBannerClickListener(new OnBannerClickListener() {
             @Override
             public void OnBannerClick(int position) {
-                OneMovieDetailActivity.startE((Activity)getContext(), idList.get(position-1), Arrays.asList(img).get(position-1), null);
+                MovieDetailActivity.startE((Activity)getContext(), idList.get(position-1), Arrays.asList(img).get(position-1), null);
 
             }
         });
@@ -213,6 +250,23 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         mBanner.start();
 
     }
-
-
+    private void showRotaLoading(boolean isLoading) {
+        if (isLoading) {
+            bindingView.llLoading.setVisibility(View.VISIBLE);
+            bindingView.xrvEveryday.setVisibility(View.GONE);
+            animation.startNow();
+        } else {
+            bindingView.llLoading.setVisibility(View.GONE);
+            bindingView.xrvEveryday.setVisibility(View.VISIBLE);
+            animation.cancel();
+        }
+    }
+    @Override
+    protected void onRefresh() {
+        showContentView();
+        showRotaLoading(true);
+        initFirstData();
+//        loadData();
+        initData();
+    }
 }

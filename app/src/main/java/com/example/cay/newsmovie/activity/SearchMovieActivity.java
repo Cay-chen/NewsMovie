@@ -2,8 +2,6 @@ package com.example.cay.newsmovie.activity;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.LoginFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +20,12 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.adapter.OneAdapter;
+import com.example.cay.newsmovie.adapter.MovieDetailsAdapter;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.databinding.ActivitySearchMovieBinding;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import okhttp3.Call;
@@ -41,7 +37,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
     private InputMethodManager mImm;
     private RecyclerView mRecyclerView;
     private static final String TAG = "Cay";
-    private OneAdapter mOneAdapter;
+    private MovieDetailsAdapter mMovieDetailsAdapter;
     private View notDataView;
     private View errorView;
     private View headView;
@@ -82,10 +78,10 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
         mRecyclerView.setVisibility(View.GONE);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
-        mOneAdapter = new OneAdapter(R.layout.item_one1, null, SearchMovieActivity.this);
-        mRecyclerView.setAdapter(mOneAdapter);
+        mMovieDetailsAdapter = new MovieDetailsAdapter(R.layout.item_one1, null, SearchMovieActivity.this);
+        mRecyclerView.setAdapter(mMovieDetailsAdapter);
         headView = getLayoutInflater().inflate(R.layout.header_item_one, (ViewGroup) mRecyclerView.getParent(), false);
-        mOneAdapter.addHeaderView(headView);
+        mMovieDetailsAdapter.addHeaderView(headView);
     }
 
     @Override
@@ -148,8 +144,8 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
     }
 
     public void searchMovieDataHttp(final String name) {
-        mOneAdapter.setNewData(null);
-        mOneAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
+        mMovieDetailsAdapter.setNewData(null);
+        mMovieDetailsAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.postDelayed(new Runnable() {
             @Override
@@ -157,7 +153,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
                 OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/FindDataServer").addParams("type", "name").addParams("value", name).build().execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        mOneAdapter.setEmptyView(errorView);
+                        mMovieDetailsAdapter.setEmptyView(errorView);
                     }
 
                     @Override
@@ -165,10 +161,10 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
                         List<MovieDataBean> list = JSON.parseArray(response, MovieDataBean.class);
                         Log.i(TAG, "list.size(): " + list.size());
                         if (list.size() == 0) {
-                            mOneAdapter.setEmptyView(notDataView);
+                            mMovieDetailsAdapter.setEmptyView(notDataView);
                         } else {
                             title.setText("搜索到与“"+name+"”相关视频" + list.size() + "个");
-                            mOneAdapter.setNewData(list);
+                            mMovieDetailsAdapter.setNewData(list);
                         }
                     }
                 });

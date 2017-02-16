@@ -28,8 +28,8 @@ import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
 import com.example.cay.newsmovie.bean.VersionUpdataBean;
 import com.example.cay.newsmovie.databinding.ActivityMainBinding;
 import com.example.cay.newsmovie.statusbar.StatusBarUtil;
-import com.example.cay.newsmovie.ui.fragment.GankFragment;
-import com.example.cay.newsmovie.ui.fragment.GankFragment1;
+import com.example.cay.newsmovie.ui.fragment.MovieHomeFragment;
+import com.example.cay.newsmovie.ui.fragment.NewsFragment;
 import com.example.cay.newsmovie.ui.fragment.OneFragment;
 import com.example.cay.newsmovie.ui.menu.NavAboutActivity;
 import com.example.cay.newsmovie.ui.menu.NavDeedBackActivity;
@@ -40,6 +40,7 @@ import com.example.cay.newsmovie.utils.ImgLoadUtil;
 import com.example.cay.newsmovie.utils.rx.RxBus;
 import com.example.cay.newsmovie.utils.rx.RxBusBaseMessage;
 import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListener();
         initRxBus();
         versionUpdateJianCe();
+        MiPushClient.setAlias(this,"0510016",null);
     }
 
     private void initVivws() {
@@ -93,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llTitleDou = mBinding.include.ivTitleDou;
         vpContent = mBinding.include.vpContent;
         fab = mBinding.include.fab;
-
         fab.setVisibility(View.GONE);
     }
 
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llTitleGank.setOnClickListener(this);
         llTitleOne.setOnClickListener(this);
         llTitleDou.setOnClickListener(this);
-
     }
 
     /**
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initContentFragment() {
         ArrayList<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new GankFragment());
+        mFragmentList.add(new MovieHomeFragment());
         mFragmentList.add(new OneFragment());
-        mFragmentList.add(new GankFragment1());
+        mFragmentList.add(new NewsFragment());
         // 注意使用的是：getSupportFragmentManager
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
         vpContent.setAdapter(adapter);
@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
 
     private void versionUpdateJianCe() {
-        OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/VersionUpdataServer").build().execute(new StringCallback() {
+        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/VersionUpdataServer").build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
 

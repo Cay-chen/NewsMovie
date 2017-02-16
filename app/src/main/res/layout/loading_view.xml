@@ -6,7 +6,7 @@
     >
     <ImageView
         style="@style/empty_img"
-        android:src="@drawable/empty_icon"/>
+        android:src="@mipmap/icon"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/loading"
+            android:text="正在收索中……"
             android:textColor="@color/red"/>
     </LinearLayout>
 </LinearLayout>

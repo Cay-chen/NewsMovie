@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="正在为您开启干货推荐.."
+                android:text="正在为您开启精彩视频推荐.."
                 android:textColor="@color/colorTitle"
                 android:textSize="14sp" />
 

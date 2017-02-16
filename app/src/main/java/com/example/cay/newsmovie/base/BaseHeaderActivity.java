@@ -189,7 +189,7 @@ public abstract class BaseHeaderActivity<HV extends ViewDataBinding, SV extends 
         bindingTitleView.tbBaseTitle.setTitleTextAppearance(this, R.style.ToolBar_Title);
         bindingTitleView.tbBaseTitle.setSubtitleTextAppearance(this, R.style.Toolbar_SubTitle);
         bindingTitleView.tbBaseTitle.inflateMenu(R.menu.base_header_menu);
-        bindingTitleView.tbBaseTitle.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.actionbar_more));
+        bindingTitleView.tbBaseTitle.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.actionbar_share));
         bindingTitleView.tbBaseTitle.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
