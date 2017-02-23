@@ -17,6 +17,16 @@ public class MovieDataBean implements Serializable {
 	private String movie_url;//电影地址
 	private String img_url;//图片地址
 	private String log;//剧情
+	private int me_type;//资源地方
+
+	public int getMe_type() {
+		return me_type;
+	}
+
+	public void setMe_type(int me_type) {
+		this.me_type = me_type;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -101,7 +111,6 @@ public class MovieDataBean implements Serializable {
 	public void setLog(String log) {
 		this.log = log;
 	}
-
 	@Override
 	public String toString() {
 		return "MovieDataBean{" +
@@ -119,6 +128,7 @@ public class MovieDataBean implements Serializable {
 				", movie_url='" + movie_url + '\'' +
 				", img_url='" + img_url + '\'' +
 				", log='" + log + '\'' +
+				", me_type=" + me_type +
 				'}';
 	}
 }

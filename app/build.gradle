@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -17,8 +17,16 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            //混淆
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+           //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+
         }
     }
     // dataBinding 加入
@@ -50,4 +58,7 @@ dependencies {
     compile project(':vitamio2')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('libs/MiPush_SDK_Client_3_2_2.jar')
+    compile 'fm.jiecao:jiecaovideoplayer:5.4'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 }

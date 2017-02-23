@@ -10,7 +10,34 @@ public class MovieBean {
     private String movieUrl;
     private String movieName;
     private String itemName;
+    private String allName;
     private int type;
+    private String movieId;
+    private String img_url;
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
+
+    public String getAllName() {
+        return allName;
+    }
+
+    public void setAllName(String allName) {
+        this.allName = allName;
+    }
 
     public int getType() {
         return type;

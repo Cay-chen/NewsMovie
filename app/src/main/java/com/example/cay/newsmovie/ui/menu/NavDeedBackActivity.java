@@ -53,7 +53,6 @@ public class NavDeedBackActivity extends BaseActivity<ActivityNavDeedBackBinding
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     break;
                case R.id.btn_submit:
-                   Log.i(TAG, "内容: "+mEditText.getText().toString());
                    if (mEditText.getText().toString().trim().isEmpty()) {
                        Toast.makeText(NavDeedBackActivity.this, "请输入提交内容", Toast.LENGTH_SHORT).show();
                    } else {
@@ -63,16 +62,7 @@ public class NavDeedBackActivity extends BaseActivity<ActivityNavDeedBackBinding
                        }
                    }
                     break;
-           /*      case R.id.tv_jianshu:
-
-                    Uri uri = Uri.parse("http://www.jianshu.com/users/e43c6e979831/latest_articles");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                    break;*/
                 case R.id.tv_faq:
-                  /*  Uri uri2 = Uri.parse("http://jingbin.me/2016/12/25/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-%E4%BA%91%E9%98%85/");
-                    Intent intent3 = new Intent(Intent.ACTION_VIEW, uri2);
-                    startActivity(intent3);*/
                     IssueActivity.start(NavDeedBackActivity.this);
                     break;
             }
@@ -80,12 +70,11 @@ public class NavDeedBackActivity extends BaseActivity<ActivityNavDeedBackBinding
     };
 
     private void submit1() {
-        OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/UpIssueServer").addParams("issue",mEditText.getText().toString()).build().execute(new StringCallback() {
+        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/UpIssueServer").addParams("issue",mEditText.getText().toString()).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 isSubmit = false;
                 Toast.makeText(NavDeedBackActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "onError:AA ");
             }
             @Override
             public void onResponse(String response, int id) {
@@ -95,7 +84,6 @@ public class NavDeedBackActivity extends BaseActivity<ActivityNavDeedBackBinding
                     Toast.makeText(NavDeedBackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
                 } else {
                     isSubmit = false;
-                    Log.i(TAG, "onError:BB ");
                     Toast.makeText(NavDeedBackActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
                 }
             }

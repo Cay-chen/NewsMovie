@@ -18,6 +18,11 @@ import okhttp3.Call;
  */
 
 public class Utils {
+
+
+
+
+
     private static boolean isIp = false;
     public static String country(int city, Context context) {
         String countryName =null;
@@ -44,23 +49,4 @@ public class Utils {
         return  countryName;
     }
 
-    public static String getData(String position, RecyclerView recyclerView, List<MovieDataBean> list) {
-        String data=null;
-        OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/Data").addParams("position",position).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                List<MovieDataBean> movieDataBeen = JSON.parseArray(response, MovieDataBean.class);
-               // list.addAll(movieDataBeen);
-               // data = response;
-            }
-        });
-
-        return null;
-
-    }
 }

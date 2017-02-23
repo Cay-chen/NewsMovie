@@ -37,7 +37,7 @@
         <!-- 配置APP版本号 -->
         <meta-data
             android:name="BUGLY_APP_VERSION"
-            android:value="1.0" />
+            android:value="1.2" />
         <!-- 配置APP渠道号 -->
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
@@ -49,6 +49,8 @@
         /************Bugly 的配置 结束***********************/
         <activity
             android:name=".activity.SplashActivity"
+            android:alwaysRetainTaskState="true"
+            android:clearTaskOnLaunch="false"
             android:screenOrientation="portrait"
             android:theme="@style/ViewBigPicTheme">
             <intent-filter>
@@ -57,8 +59,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SearchMovieActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
+            android:alwaysRetainTaskState="true"
+            android:clearTaskOnLaunch="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".base.BaseActivity"
@@ -75,6 +81,9 @@
             android:name=".ui.menu.NavDeedBackActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.HotMovieActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.menu.NavAboutActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.menu.NavDownloadActivity" />
@@ -86,7 +95,6 @@
             android:name=".player.PlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".activity.SearchMovieActivity" />
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
@@ -158,7 +166,12 @@
         <activity
             android:name=".ui.menu.IssueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.GetMovieActivity"></activity>
+        <activity android:name=".activity.GetMovieActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".player.MyPlayerActivity"
+            android:theme="@style/JCPlayThem"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

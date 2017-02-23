@@ -11,42 +11,33 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.example.cay.newsmovie.MainActivity;
 import com.example.cay.newsmovie.R;
 import com.example.cay.newsmovie.adapter.MovieDetailsAdapter;
+import com.example.cay.newsmovie.base.DataCallBack;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.databinding.FragmentOneBinding;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.example.cay.newsmovie.utils.GetDataUtils;
 
 import java.util.List;
 
-import okhttp3.Call;
 
 public class OneFragment extends BaseFragment<FragmentOneBinding> implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
-    private String getDataUri = "http://60.205.183.88:8080/VMovie/MuchFindDataServer";
-    // 初始化完成后加载数据
-    private boolean isPrepared = false;
     // 第一次显示时加载数据，第二次不显示
     private boolean isFirst = true;
     //每次刷新加载个数
-    private String LOAD_MORE_NUM = "3";
+    private String LOAD_MORE_NUM = "5";
     //初始化加载个数
-    private String FIRST_LOAD_MORE_NUM = "5";
-    // 是否正在刷新（用于刷新数据时返回页面不再刷新）
-    private boolean mIsLoading = false;
+    private String FIRST_LOAD_MORE_NUM = "10";
     private MainActivity activity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MovieDetailsAdapter movieDetailsAdapter;
     private RecyclerView mRecyclerView;
-    private List<MovieDataBean> mList;
     private static final String TAG = "Cay";
     private TextView mTitle;
     private int loadWhere = 0;
@@ -73,7 +64,6 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
         LinearLayoutManager manager = new LinearLayoutManager(activity);
         manager.setOrientation(OrientationHelper.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        isPrepared = true;
     }
 
     @Override
@@ -81,20 +71,19 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
         if (!isFirst) {
             return;
         }
-        // httpGetData(null,null,null,null,nowPosition,FIRST_LOAD_MORE_NUM,isFirst);
-        OkHttpUtils.get().url(getDataUri).addParams("position", "0").addParams("num", "10").build().execute(new StringCallback() {
+        GetDataUtils.getInstance().muchFindData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, new DataCallBack() {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void err() {
                 showError();
             }
 
             @Override
-            public void onResponse(String response, int id) {
-                mList = JSON.parseArray(response, MovieDataBean.class);
-                nowPosition = String.valueOf(mList.size());
-                initAdapter(mList);
+            public void success(List list) {
+                nowPosition = String.valueOf(list.size());
+                initAdapter(list);
                 showContentView();
                 isFirst = false;
+
             }
         });
     }
@@ -130,34 +119,33 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                         httpGetData("type", "1", "city", "1", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 2:
-                        httpGetData("type", "2", "city", "1", nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("type", "2", "city", "1", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 3:
-                        httpGetData("type", "1", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("type", "1", "city", "2", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 4:
-                        httpGetData("type", "2", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("type", "2", "city", "2", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 5:
-                        httpGetData("type", "1", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("type", "1", "city", "4", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 6:
-                        httpGetData("type", "2", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("type", "2", "city", "4", nowPosition, LOAD_MORE_NUM, false);
                         break;
                     case 7:
-                        httpGetData("movie_type", "动画", null, null, nowPosition, FIRST_LOAD_MORE_NUM, false);
+                        httpGetData("movie_type", "动画", null, null, nowPosition, LOAD_MORE_NUM, false);
                         break;
                 }
             }
-        }, 800);
-
+        }, 1000);
     }
 
     @Override
     public void onRefresh() {
         showLoading();
         movieDetailsAdapter.setEnableLoadMore(false);
-        nowPosition ="0";
+        nowPosition = "0";
         switch (loadWhere) {
             case 0:
                 httpGetData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
@@ -203,7 +191,6 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
                                     loadWhere = 0;
                                     httpGetData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
                                 }
-
                                 break;
                             case R.id.movie_china_tv:
                                 if (!mTitle.getText().toString().equals("国内电视剧")) {
@@ -289,119 +276,36 @@ public class OneFragment extends BaseFragment<FragmentOneBinding> implements Bas
     }
 
     public void httpGetData(String type1, String value1, String type2, String value2, final String position, String num, final boolean isRefresh) {
-
-        if (type2 == null) {
-            if (type1 == null) {
-                OkHttpUtils.get().url(getDataUri).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        if (isRefresh) {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
-                        }else {
-                            movieDetailsAdapter.loadMoreFail();
-                        }
-
-                    }
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.i(TAG, "response: " + response);
-                        mList = JSON.parseArray(response, MovieDataBean.class);
-                        if (isRefresh) {
-                            Log.i(TAG, "刷新请求:");
-                            movieDetailsAdapter.setNewData(mList);
-                            nowPosition = String.valueOf(mList.size());
-                            if (mList.size() < 5) {
-                                movieDetailsAdapter.loadMoreEnd(true);
-                            }
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            movieDetailsAdapter.setEnableLoadMore(true);
-                            showContentView();
-                        } else {
-                            Log.i(TAG, "加载请求:");
-                            movieDetailsAdapter.addData(mList);
-                            nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
-                            movieDetailsAdapter.loadMoreComplete();
-                            if (mList.size() < 3) {
-                                movieDetailsAdapter.loadMoreEnd(false);
-                            }
-                        }
-
-                    }
-                });
-            } else {
-                OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/FindDataServer").addParams("type", type1).addParams("value", value1).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        if (isRefresh) {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
-                        }else {
-                            movieDetailsAdapter.loadMoreFail();                        }
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        mList = JSON.parseArray(response, MovieDataBean.class);
-                        if (isRefresh) {
-                            Log.i(TAG, "刷新请求:");
-                            movieDetailsAdapter.setNewData(mList);
-                            nowPosition = String.valueOf(mList.size());
-                           /* if (mList.size() < 5) {
-                                movieDetailsAdapter.loadMoreEnd(true);
-                            }*/
-                            movieDetailsAdapter.loadMoreComplete();
-                            movieDetailsAdapter.loadMoreEnd(false);
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            //movieDetailsAdapter.setEnableLoadMore(true);
-                            showContentView();
-                        } else {
-                            Log.i(TAG, "加载请求:");
-                            movieDetailsAdapter.addData(mList);
-                           // nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
-                           // movieDetailsAdapter.loadMoreComplete();
-
-                        }
-                    }
-                });
-                System.out.println("一条查询");
+        GetDataUtils.getInstance().muchFindData(type1, value1, type2, value2, position, num, new DataCallBack() {
+            @Override
+            public void err() {
+                if (isRefresh) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                } else {
+                    movieDetailsAdapter.loadMoreFail();
+                }
             }
-        } else {
-            OkHttpUtils.get().url(getDataUri).addParams("type1", type1).addParams("value1", value1).addParams("type2", type2).addParams("value2", value2).addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    if (isRefresh) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(activity, "刷新失败", Toast.LENGTH_LONG).show();
-                    } else {
-                        movieDetailsAdapter.loadMoreFail();                    }
-                }
 
-                @Override
-                public void onResponse(String response, int id) {
-                    mList = JSON.parseArray(response, MovieDataBean.class);
-                    if (isRefresh) {
-                        Log.i(TAG, "刷新请求:");
-                        movieDetailsAdapter.setNewData(mList);
-                        nowPosition = String.valueOf(mList.size());
-                        if (mList.size() < 5) {
-                            movieDetailsAdapter.loadMoreEnd(true);
-                        }
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        movieDetailsAdapter.setEnableLoadMore(true);
-                        showContentView();
-                    } else {
-                        Log.i(TAG, "加载请求:");
-                        movieDetailsAdapter.addData(mList);
-                        nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
-                        movieDetailsAdapter.loadMoreComplete();
-                        if (mList.size() < 3) {
-                            movieDetailsAdapter.loadMoreEnd(false);
-                        }
+            @Override
+            public void success(List list) {
+                if (isRefresh) {
+                    movieDetailsAdapter.setNewData(list);
+                    nowPosition = String.valueOf(list.size());
+                    if (list.size() < Integer.parseInt(FIRST_LOAD_MORE_NUM)) {
+                        movieDetailsAdapter.loadMoreEnd(true);
+                    }
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    movieDetailsAdapter.setEnableLoadMore(true);
+                    showContentView();
+                } else {
+                    movieDetailsAdapter.addData(list);
+                    nowPosition = String.valueOf(movieDetailsAdapter.getData().size());
+                    movieDetailsAdapter.loadMoreComplete();
+                    if (list.size() < Integer.parseInt(LOAD_MORE_NUM)) {
+                        movieDetailsAdapter.loadMoreEnd(false);
                     }
                 }
-            });
-        }
-
+            }
+        });
     }
 }

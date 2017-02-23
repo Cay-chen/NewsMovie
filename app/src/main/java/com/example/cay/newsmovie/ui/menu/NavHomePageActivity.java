@@ -25,6 +25,9 @@ public class NavHomePageActivity extends AppCompatActivity {
 
         binding.toolbarLayout.setTitle(getString(R.string.app_name));
         initTranslucentBar();
+
+
+
         binding.fabShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

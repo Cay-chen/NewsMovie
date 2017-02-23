@@ -123,5 +123,10 @@
         <item name="colorAccent">@color/colorTheme</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-
+    <!--查看大图页面，全屏显示-->
+    <style name="JCPlayThem" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/bac</item>
+        <item name="colorPrimaryDark">@color/bac</item>
+        <item name="colorAccent">@color/bac</item>
+    </style>
 </resources>

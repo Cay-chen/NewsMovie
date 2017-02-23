@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.util.LogTime;
 import com.example.cay.newsmovie.R;
 import com.example.cay.newsmovie.adapter.MovieCountItemAdapter;
 import com.example.cay.newsmovie.app.MyApplication;
@@ -37,6 +38,7 @@ import okhttp3.Call;
  */
 public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBinding, ActivityOneMovieDetailBinding> {
     private String MOVIE_IP_URL = "http://60.205.183.88:8080/UpDataIp/servlet/MovieIp";
+    private static final String TAG = "Cay";
     // private MovieDataBean subjectsBean1;
     private String ip = null;
     private String movieId;
@@ -69,6 +71,7 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
 
             @Override
             public void onResponse(String response, int id) {
+                Log.i(TAG, "onResponse: "+response);
                 List<MovieDataBean> list = JSON.parseArray(response, MovieDataBean.class);
                 setAllData(list.get(0));
                 showContentView();
@@ -94,74 +97,106 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
 
     private void setMovieCount(MovieDataBean subjectsBean) {
         List<MovieBean> mList = new ArrayList<>();
-        switch (Integer.parseInt(subjectsBean.getType())) {
-            case 1:
+        Log.i(TAG, "metype: "+subjectsBean.getMe_type());
+        if (subjectsBean.getMe_type() == 0) {
+            Log.i(TAG, "setMovieCount: ");
+            if (Integer.parseInt(subjectsBean.getType()) == 1) {
                 for (int i = 1; i <= Integer.parseInt(subjectsBean.getNum()); i++) {
                     MovieBean bean = new MovieBean();
+                    bean.setAllName(subjectsBean.getName());
+                    bean.setImg_url(subjectsBean.getImg_url());
+                    bean.setMovieId(subjectsBean.getId());
                     bean.setItemName("第" + String.valueOf(i) + "集");
                     bean.setMovieUrl("http://" + ip + ":8081/movie/" + subjectsBean.getMovie_url().trim() + "/" + i + ".mp4");
                     bean.setMovieName(subjectsBean.getName() + " 第" + String.valueOf(i) + "集");
                     bean.setType(1);
                     mList.add(bean);
                 }
-                break;
-            case 2:
+
+            } else {
                 MovieBean bean = new MovieBean();
+                bean.setAllName(subjectsBean.getName());
+                bean.setImg_url(subjectsBean.getImg_url());
+                bean.setMovieId(subjectsBean.getId());
                 bean.setItemName("高清中字");
                 bean.setMovieUrl("http://" + ip + ":8081/movie/" + subjectsBean.getMovie_url().trim() + ".mp4");
                 bean.setMovieName(subjectsBean.getName());
                 bean.setType(1);
                 mList.add(bean);
-                break;
-            case 3:
-                MovieBean bean3 = new MovieBean();
-                bean3.setItemName("爱奇艺");
-                bean3.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean3.setMovieName(subjectsBean.getName());
-                bean3.setType(2);
-                mList.add(bean3);
-                break;
-            case 4:
-                MovieBean bean4 = new MovieBean();
-                bean4.setItemName("优酷视频");
-                bean4.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean4.setMovieName(subjectsBean.getName());
-                bean4.setType(2);
-                mList.add(bean4);
-                break;
-            case 5:
-                MovieBean bean5 = new MovieBean();
-                bean5.setItemName("腾讯视频");
-                bean5.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean5.setMovieName(subjectsBean.getName());
-                bean5.setType(2);
-                mList.add(bean5);
-                break;
-            case 6:
-                MovieBean bean6 = new MovieBean();
-                bean6.setItemName("芒果TV");
-                bean6.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean6.setMovieName(subjectsBean.getName());
-                bean6.setType(2);
-                mList.add(bean6);
-                break;
-            case 7:
-                MovieBean bean7 = new MovieBean();
-                bean7.setItemName("搜狐视频");
-                bean7.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean7.setMovieName(subjectsBean.getName());
-                bean7.setType(2);
-                mList.add(bean7);
-                break;
-            case 8:
-                MovieBean bean8 = new MovieBean();
-                bean8.setItemName("土豆");
-                bean8.setMovieUrl(subjectsBean.getMovie_url().trim());
-                bean8.setMovieName(subjectsBean.getName());
-                bean8.setType(2);
-                mList.add(bean8);
-                break;
+            }
+        } else {
+            Log.i(TAG, "AAA ");
+
+            switch (subjectsBean.getMe_type()) {
+                case 1:
+                    MovieBean bean3 = new MovieBean();
+                    bean3.setItemName("爱奇艺");
+                    bean3.setImg_url(subjectsBean.getImg_url());
+                    bean3.setMovieId(subjectsBean.getId());
+                    bean3.setAllName(subjectsBean.getName());
+                    bean3.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean3.setMovieName(subjectsBean.getName());
+                    bean3.setType(2);
+                    mList.add(bean3);
+                    break;
+                case 2:
+                    MovieBean bean4 = new MovieBean();
+                    bean4.setItemName("优酷视频");
+                    bean4.setImg_url(subjectsBean.getImg_url());
+                    bean4.setMovieId(subjectsBean.getId());
+                    bean4.setAllName(subjectsBean.getName());
+                    bean4.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean4.setMovieName(subjectsBean.getName());
+                    bean4.setType(2);
+                    mList.add(bean4);
+                    break;
+                case 3:
+                    MovieBean bean5 = new MovieBean();
+                    bean5.setItemName("腾讯视频");
+                    bean5.setImg_url(subjectsBean.getImg_url());
+                    bean5.setMovieId(subjectsBean.getId());
+                    bean5.setAllName(subjectsBean.getName());
+                    bean5.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean5.setMovieName(subjectsBean.getName());
+                    bean5.setType(2);
+                    mList.add(bean5);
+                    break;
+                case 4:
+                    MovieBean bean6 = new MovieBean();
+                    bean6.setItemName("芒果TV");
+                    bean6.setImg_url(subjectsBean.getImg_url());
+                    bean6.setMovieId(subjectsBean.getId());
+                    bean6.setAllName(subjectsBean.getName());
+                    bean6.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean6.setMovieName(subjectsBean.getName());
+                    bean6.setType(2);
+                    mList.add(bean6);
+                    break;
+                case 5:
+                    MovieBean bean7 = new MovieBean();
+                    bean7.setAllName(subjectsBean.getName());
+                    bean7.setItemName("搜狐视频");
+                    bean7.setImg_url(subjectsBean.getImg_url());
+                    bean7.setMovieId(subjectsBean.getId());
+                    bean7.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean7.setMovieName(subjectsBean.getName());
+                    bean7.setType(2);
+                    mList.add(bean7);
+                    break;
+                case 6:
+                    MovieBean bean8 = new MovieBean();
+                    bean8.setAllName(subjectsBean.getName());
+                    bean8.setItemName("土豆");
+                    bean8.setImg_url(subjectsBean.getImg_url());
+                    bean8.setMovieId(subjectsBean.getId());
+                    bean8.setMovieUrl(subjectsBean.getMovie_url().trim());
+                    bean8.setMovieName(subjectsBean.getName());
+                    bean8.setType(2);
+                    mList.add(bean8);
+                    break;
+            }
         }
+
         bindingContentView.rvCast.setLayoutManager(new GridLayoutManager(this, 4));
         bindingContentView.rvCast.setAdapter(new MovieCountItemAdapter(R.layout.movie_count_item, mList, this));
         if (ip == null) {

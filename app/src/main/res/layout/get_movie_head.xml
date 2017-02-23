@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_get_movie_name"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:textCursorDrawable="@null"
+            android:textColorLink="#000000"
+            android:textColor="#000000"
+            android:paddingLeft="2dp"
+            android:maxEms="15"
+            android:background="@drawable/shape_notclickbg"
+            android:hint=" 填写电影名、电视名" />
+
+        <Button
+            android:id="@+id/btn_movie_submit"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_tijiao_rank"
+            android:text="提交"
+            android:textColor="@color/button_submit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingTop="7dp">
+        <TextView
+            android:layout_marginTop="3dp"
+            android:background="@color/colorTheme"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="23dp"
+                android:background="@drawable/ic_cylinder" />
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更新请求列表"
+                android:textColor="@color/colorContent"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

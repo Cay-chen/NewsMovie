@@ -2,6 +2,7 @@ package com.example.cay.newsmovie.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,12 +15,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.cay.newsmovie.MainActivity;
 import com.example.cay.newsmovie.R;
+import com.example.cay.newsmovie.activity.GetMovieActivity;
+import com.example.cay.newsmovie.activity.HotMovieActivity;
 import com.example.cay.newsmovie.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.adapter.EveryDayAdapter;
 import com.example.cay.newsmovie.base.GlideImageLoader;
@@ -124,12 +128,29 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         mFooterBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.footer_item_everyday, null, false);
         mHeaderView = mHeaderBinding.getRoot();
         View view = mHeaderView.findViewById(R.id.include_everyday);
+        FrameLayout ibt_movie = (FrameLayout) view.findViewById(R.id.fl_everyday);
         ImageButton imb= (ImageButton) view.findViewById(R.id.ib_all_movie);
+        ImageButton imh= (ImageButton) view.findViewById(R.id.ib_movie_hot);
+
         imb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RxBus.getDefault().post(RxCodeConstants.JUMP_TYPE_TO_ONE, new RxBusBaseMessage());
 
+            }
+        });
+        ibt_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, GetMovieActivity.class);
+                activity.startActivity(intent);
+            }
+        });
+        imh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, HotMovieActivity.class);
+                activity.startActivity(intent);
             }
         });
         mFooterView = mFooterBinding.getRoot();

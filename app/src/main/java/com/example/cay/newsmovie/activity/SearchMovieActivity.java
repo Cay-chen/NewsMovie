@@ -21,8 +21,10 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.example.cay.newsmovie.R;
 import com.example.cay.newsmovie.adapter.MovieDetailsAdapter;
+import com.example.cay.newsmovie.base.DataCallBack;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.databinding.ActivitySearchMovieBinding;
+import com.example.cay.newsmovie.utils.GetDataUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -122,7 +124,6 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.i(TAG, "onQueryTextChange: " + "改变");
         return false;
     }
 
@@ -139,10 +140,8 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
                 mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             }
             mSearchView.clearFocus();
-            //SearchHistory.getInstance(this).addSearchString(mSearchView.getQuery().toString());
         }
     }
-
     public void searchMovieDataHttp(final String name) {
         mMovieDetailsAdapter.setNewData(null);
         mMovieDetailsAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
@@ -150,16 +149,14 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
         mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/FindDataServer").addParams("type", "name").addParams("value", name).build().execute(new StringCallback() {
+
+                GetDataUtils.getInstance().getSerchData(new DataCallBack() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
+                    public void err() {
                         mMovieDetailsAdapter.setEmptyView(errorView);
                     }
-
                     @Override
-                    public void onResponse(String response, int id) {
-                        List<MovieDataBean> list = JSON.parseArray(response, MovieDataBean.class);
-                        Log.i(TAG, "list.size(): " + list.size());
+                    public void success(List list) {
                         if (list.size() == 0) {
                             mMovieDetailsAdapter.setEmptyView(notDataView);
                         } else {
@@ -167,7 +164,7 @@ public class SearchMovieActivity extends AppCompatActivity implements SearchView
                             mMovieDetailsAdapter.setNewData(list);
                         }
                     }
-                });
+                },"name",name);
             }
         }, 1000);
     }

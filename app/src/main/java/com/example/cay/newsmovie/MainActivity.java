@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListener();
         initRxBus();
         versionUpdateJianCe();
-        MiPushClient.setAlias(this,"0510016",null);
+       // MiPushClient.setAlias(this,"0510016",null);
+        upCountLogin();
     }
 
     private void initVivws() {
@@ -358,5 +359,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         update.setShowResult(false);
         update.startUpdate();
 
+    }
+
+    /**
+     * 登录统计
+     */
+    public void upCountLogin() {
+        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerCountLogin").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+
+            }
+        });
     }
 }

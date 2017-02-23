@@ -14,7 +14,6 @@ import java.util.List;
  */
 
 public class GetMovieAdapter extends BaseQuickAdapter<IssueBean,BaseViewHolder> {
-    private Context context;
     public GetMovieAdapter(int layoutResId, List<IssueBean> data) {
         super(layoutResId, data);
     }
@@ -23,6 +22,9 @@ public class GetMovieAdapter extends BaseQuickAdapter<IssueBean,BaseViewHolder> 
     protected void convert(BaseViewHolder helper, IssueBean item) {
         helper.setText(R.id.tv_movie_time, item.getTime())
                 .setText(R.id.tv_movie_name, item.getContent());
+        if (item.getIsFinsh() == 0) {
+            helper.setVisible(R.id.iv_movie_pass, false);
+        }
         if (item.getIsFinsh() == 1) {
             helper.setImageResource(R.id.iv_movie_pass, R.drawable.movie_pass);
             helper.setVisible(R.id.iv_movie_pass, true);

@@ -3,38 +3,67 @@ package com.example.cay.newsmovie.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.adapter.IssueAdapter;
+import com.example.cay.newsmovie.adapter.GetMovieAdapter;
 import com.example.cay.newsmovie.base.BaseActivity;
 import com.example.cay.newsmovie.bean.IssueBean;
 import com.example.cay.newsmovie.databinding.ActivityIssueBinding;
 import com.example.cay.newsmovie.ui.menu.IssueActivity;
+import com.example.cay.newsmovie.ui.menu.NavDeedBackActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> implements BaseQuickAdapter.RequestLoadMoreListener,SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecyclerView;
     private boolean isFirst = true;
-    private IssueAdapter mAdapter;
+    private static final String TAG = "Cay";
+    private GetMovieAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private String nowPosition;
+    private String nowPosition="0";
+    private EditText mEditText;
+    private Button mButton;
+    private boolean isSubmit;
+    private View mHeaderView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue);
         showLoading();
-        setTitle("问题反馈列表");
+        setTitle("更新请求");
+        mHeaderView = View.inflate(this, R.layout.get_movie_head, null);
+        mEditText = (EditText) mHeaderView.findViewById(R.id.et_get_movie_name);
+        mButton = (Button) mHeaderView.findViewById(R.id.btn_movie_submit);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEditText.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(GetMovieActivity.this, "请输入电影名或电视名", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!isSubmit) {
+                        isSubmit = true;
+                        submit();
+                    }
+                }
+            }
+        });
         initRecyclerView();
     }
 
@@ -46,9 +75,9 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
         mRecyclerView.setLayoutManager(manager);
         laodData("0", "15",false);
     }
-
     private void initAdapter(List<IssueBean> data) {
-        mAdapter = new IssueAdapter(R.layout.issue_item, data);
+        mAdapter = new GetMovieAdapter(R.layout.get_movie_updata_item, data);
+        mAdapter.addHeaderView(mHeaderView);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
         if (data.size() < 10) {
@@ -60,7 +89,7 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
         mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                OkHttpUtils.get().url("http://192.168.0.227:8080/VMovie/ServerIssueData").addParams("position",position).addParams("num",num).build().execute(new StringCallback() {
+                OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerGetUpMovieData").addParams("position",position).addParams("num",num).build().execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         if (isLoadMor) {
@@ -74,6 +103,7 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
 
                     @Override
                     public void onResponse(String response, int id) {
+                        Log.i(TAG, "response: "+response);
                         List<IssueBean> list = JSON.parseArray(response, IssueBean.class);
                         if (isLoadMor) {
                             mAdapter.addData(list);
@@ -118,5 +148,23 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
         showLoading();
         nowPosition ="0";
         laodData(nowPosition, "15", false);
+    }
+    private void submit() {
+        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerUpGetMovie").addParams("issue",mEditText.getText().toString()).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
     }
 }
