@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <TextView
+
+            android:id="@+id/tv__issue_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="55dp"
+            android:textSize="16sp"
+            android:text=""
+
+            />
+        <TextView
+            android:id="@+id/tv_issue_time"
+            android:layout_marginTop="3dp"
+            android:textSize="12sp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv__issue_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-02-07 20:23:33"/>
+        <ImageView
+            android:id="@+id/iv_issue_isfinsh"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yijiejue"/>
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tv_issue_time"
+            android:layout_width="match_parent"
+            android:background="@color/colorLine"
+            android:layout_height="5dp" />
+    </RelativeLayout>
+
+
