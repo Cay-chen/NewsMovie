@@ -48,7 +48,7 @@
             android:value="false" />
         /************Bugly 的配置 结束***********************/
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:alwaysRetainTaskState="true"
             android:clearTaskOnLaunch="false"
             android:screenOrientation="portrait"
@@ -59,7 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SearchMovieActivity"
+        <activity android:name=".ui.activity.SearchMovieActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
@@ -81,14 +81,14 @@
             android:name=".ui.menu.NavDeedBackActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.HotMovieActivity"
+            android:name=".ui.activity.HotMovieActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.menu.NavAboutActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.menu.NavDownloadActivity" />
         <activity
-            android:name=".activity.MovieDetailActivity"
+            android:name=".ui.activity.MovieDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyScrollPage" />
         <activity
@@ -164,9 +164,9 @@
         </receiver>
         /*****************小米推送server 结束***********/
         <activity
-            android:name=".ui.menu.IssueActivity"
+            android:name=".ui.activity.IssueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.GetMovieActivity"
+        <activity android:name=".ui.activity.GetMovieActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".player.MyPlayerActivity"
             android:theme="@style/JCPlayThem"

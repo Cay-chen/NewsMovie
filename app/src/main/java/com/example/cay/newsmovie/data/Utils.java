@@ -1,17 +1,8 @@
 package com.example.cay.newsmovie.data;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSON;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.bean.MovieDataBean;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import java.util.List;
-
-import okhttp3.Call;
 
 /**
  * Created by Cay on 2017/2/6.

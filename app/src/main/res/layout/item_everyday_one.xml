@@ -8,8 +8,8 @@
 
         <include
             android:id="@+id/head_one"
-            layout="@layout/item_everyday_title"></include>
-
+            layout="@layout/item_everyday_title">
+        </include>
         <LinearLayout
             android:id="@+id/ll_one_photo"
             android:layout_width="match_parent"

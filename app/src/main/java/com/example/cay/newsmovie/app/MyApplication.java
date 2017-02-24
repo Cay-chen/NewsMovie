@@ -3,22 +3,18 @@ package com.example.cay.newsmovie.app;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 import android.os.Process;
+import android.util.Log;
 
 import com.example.cay.newsmovie.http.HttpUtils;
 import com.tencent.bugly.crashreport.CrashReport;
-
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
 import io.vov.vitamio.Vitamio;
-import okhttp3.Call;
 
 
 /**

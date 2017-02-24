@@ -14,6 +14,7 @@ import com.example.cay.newsmovie.databinding.FragmentMovieHomeBinding;
 import java.util.ArrayList;
 
 /**
+ * ss
  * Created by Cay on 2017/2/3.
  */
 
@@ -63,19 +64,17 @@ public class NewsFragment extends BaseFragment<FragmentMovieHomeBinding> {
         mTitleList.add("科技");
         mTitleList.add("财经");
         mTitleList.add("时尚");
-        mFragments.add(new NewsTopFragment());
-        mFragments.add(new NewsWeiXinFragment());
-        mFragments.add(new NewsSheHuiFragment());
-        mFragments.add(new NewsGuoNeiFragment());
-        mFragments.add(new NewsGuoJiFragment());
-        mFragments.add(new NewsYuLeFragment());
-        mFragments.add(new NewsTiYuFragment());
-        mFragments.add(new NewsJunShiFragment());
-        mFragments.add(new NewsKeJiFragment());
-        mFragments.add(new NewsCaiJingFragment());
-        mFragments.add(new NewsShiShangFragment());
-
-//        mFragments.add(AndroidFragment.newInstance("iOS"));
+        mFragments.add(NewsChildFragment.newInstance("top"));
+        mFragments.add(new WeiXinFragment());
+        mFragments.add(NewsChildFragment.newInstance("shehui"));
+        mFragments.add(NewsChildFragment.newInstance("guonei"));
+        mFragments.add(NewsChildFragment.newInstance("guoji"));
+        mFragments.add(NewsChildFragment.newInstance("yule"));
+        mFragments.add(NewsChildFragment.newInstance("tiyu"));
+        mFragments.add(NewsChildFragment.newInstance("junshi"));
+        mFragments.add(NewsChildFragment.newInstance("keji"));
+        mFragments.add(NewsChildFragment.newInstance("caijing"));
+        mFragments.add(NewsChildFragment.newInstance("shishang"));
     }
 
 }

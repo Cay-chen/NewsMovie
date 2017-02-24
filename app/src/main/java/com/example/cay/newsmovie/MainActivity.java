@@ -3,7 +3,6 @@ package com.example.cay.newsmovie;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -21,34 +20,35 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.example.cay.newsmovie.VerUpdata.VersionUpdateManager;
-import com.example.cay.newsmovie.activity.SearchMovieActivity;
+import com.example.cay.newsmovie.http.RxBus.RxBus;
+import com.example.cay.newsmovie.http.RxBus.RxBusBaseMessage;
+import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
+import com.example.cay.newsmovie.ui.activity.SearchMovieActivity;
 import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
+import com.example.cay.newsmovie.bean.UpDdtaBackBean;
 import com.example.cay.newsmovie.bean.VersionUpdataBean;
 import com.example.cay.newsmovie.databinding.ActivityMainBinding;
+import com.example.cay.newsmovie.http.HttpUtils;
 import com.example.cay.newsmovie.statusbar.StatusBarUtil;
+import com.example.cay.newsmovie.ui.fragment.AllMovieFragment;
 import com.example.cay.newsmovie.ui.fragment.MovieHomeFragment;
 import com.example.cay.newsmovie.ui.fragment.NewsFragment;
-import com.example.cay.newsmovie.ui.fragment.OneFragment;
 import com.example.cay.newsmovie.ui.menu.NavAboutActivity;
 import com.example.cay.newsmovie.ui.menu.NavDeedBackActivity;
 import com.example.cay.newsmovie.ui.menu.NavDownloadActivity;
 import com.example.cay.newsmovie.ui.menu.NavHomePageActivity;
 import com.example.cay.newsmovie.utils.CommonUtils;
 import com.example.cay.newsmovie.utils.ImgLoadUtil;
-import com.example.cay.newsmovie.utils.rx.RxBus;
-import com.example.cay.newsmovie.utils.rx.RxBusBaseMessage;
-import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
-import com.xiaomi.mipush.sdk.MiPushClient;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-import rx.functions.Action1;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     // 一定需要对应的bean
@@ -57,18 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView llTitleOne;
     private ImageView llTitleDou;
     private Toolbar toolbar;
-    private FloatingActionButton fab;
     private long time = 0;
-
     private NavigationView navView;
     private FrameLayout llTitleMenu;
     private DrawerLayout drawerLayout;
-
     private ViewPager vpContent;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
 
 
     @Override
@@ -95,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llTitleOne = mBinding.include.ivTitleOne;
         llTitleDou = mBinding.include.ivTitleDou;
         vpContent = mBinding.include.vpContent;
-        fab = mBinding.include.fab;
-        fab.setVisibility(View.GONE);
     }
 
     private void initListener() {
@@ -112,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initDrawerLayout() {
         navView.inflateHeaderView(R.layout.nav_header_main);
         View headerView = navView.getHeaderView(0);
-//        LinearLayout viewById1 = (LinearLayout) headerView.findViewById(R.id.ll_header_bg);
-//        viewById1.setBackground();
         ImageView ivAvatar = (ImageView) headerView.findViewById(R.id.iv_avatar);
         ImgLoadUtil.displayCircle(ivAvatar, R.drawable.ic_avatar);
         LinearLayout llNavHomepage = (LinearLayout) headerView.findViewById(R.id.ll_nav_homepage);
@@ -129,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initContentFragment() {
         ArrayList<Fragment> mFragmentList = new ArrayList<>();
         mFragmentList.add(new MovieHomeFragment());
-        mFragmentList.add(new OneFragment());
+        mFragmentList.add(new AllMovieFragment());
         mFragmentList.add(new NewsFragment());
         // 注意使用的是：getSupportFragmentManager
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
@@ -156,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 关闭
 //                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.iv_title_gank:// 干货栏
+            case R.id.iv_title_gank:// 电影栏
                 if (vpContent.getCurrentItem() != 0) {//不然cpu会有损耗
                     llTitleGank.setSelected(true);
                     llTitleOne.setSelected(false);
@@ -164,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     vpContent.setCurrentItem(0);
                 }
                 break;
-            case R.id.iv_title_one:// 电影栏
+            case R.id.iv_title_one:// 所有电影栏
                 if (vpContent.getCurrentItem() != 1) {
                     llTitleOne.setSelected(true);
                     llTitleGank.setSelected(false);
@@ -172,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     vpContent.setCurrentItem(1);
                 }
                 break;
-            case R.id.iv_title_dou:// 书籍栏
+            case R.id.iv_title_dou:// 新闻栏
                 if (vpContent.getCurrentItem() != 2) {
                     llTitleDou.setSelected(true);
                     llTitleOne.setSelected(false);
@@ -209,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }, 360);
                 break;
-            case R.id.ll_nav_about:// 关于云阅
+            case R.id.ll_nav_about:// 关于V视
                 mBinding.drawerLayout.closeDrawer(GravityCompat.START);
                 mBinding.drawerLayout.postDelayed(new Runnable() {
                     @Override
@@ -273,15 +263,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /**
+   /**
      * 每日推荐点击"新电影热映榜"跳转
      */
     private void initRxBus() {
         RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE_TO_ONE, RxBusBaseMessage.class)
-                .subscribe(new Action1<RxBusBaseMessage>() {
+                .subscribe(new Observer() {
                     @Override
-                    public void call(RxBusBaseMessage integer) {
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Object value) {
                         mBinding.include.vpContent.setCurrentItem(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }
@@ -324,22 +329,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
 
     private void versionUpdateJianCe() {
-        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/VersionUpdataServer").build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+        HttpUtils.getInstance().getMyObservableClient().verJianCe()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<VersionUpdataBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
-                List<VersionUpdataBean> list1 = JSON.parseArray(response, VersionUpdataBean.class);
-                responseVersionUpdate(list1);
-            }
-        });
+                    @Override
+                    public void onNext(List<VersionUpdataBean> list) {
+                        responseVersionUpdate(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
 
     }
-
     /**
      * 请求版本更新的响应
      */
@@ -358,23 +374,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         update.setShowResult(false);
         update.startUpdate();
-
     }
 
     /**
      * 登录统计
      */
     public void upCountLogin() {
-        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerCountLogin").build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+        HttpUtils.getInstance().getMyObservableClient().upCountLogin()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<UpDdtaBackBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
+                    @Override
+                    public void onNext(UpDdtaBackBean value) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

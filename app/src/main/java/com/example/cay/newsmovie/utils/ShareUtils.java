@@ -8,7 +8,6 @@ import com.example.cay.newsmovie.R;
 
 
 /**
- * Created by jingbin on 2016/12/28.
  */
 
 public class ShareUtils {

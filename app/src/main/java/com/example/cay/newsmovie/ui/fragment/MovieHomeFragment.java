@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 
 import com.example.cay.newsmovie.R;
@@ -11,15 +12,19 @@ import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
 
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
 import com.example.cay.newsmovie.databinding.FragmentMovieHomeBinding;
-import com.example.cay.newsmovie.utils.rx.RxBus;
-import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
+import com.example.cay.newsmovie.http.RxBus.RxBus;
+import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
+
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 
-import rx.Subscription;
-import rx.functions.Action1;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
+ * dd
  * Created by Cay on 2017/2/3.
  */
 
@@ -48,7 +53,7 @@ public class MovieHomeFragment extends BaseFragment<FragmentMovieHomeBinding> {
         bindingView.tabGank.setTabMode(TabLayout.MODE_FIXED);
         bindingView.tabGank.setupWithViewPager(bindingView.vpGank);
         showContentView();
-        initRxBus();
+         initRxBus();
     }
     private void initFragmentList() {
         mTitleList.add("每日推荐");
@@ -56,27 +61,39 @@ public class MovieHomeFragment extends BaseFragment<FragmentMovieHomeBinding> {
         mTitleList.add("电视剧");
         mTitleList.add("动漫");
         mFragments.add(new EverydayFragment());
-        mFragments.add(new MovieFragment());
-        mFragments.add(new TVFragment());
+        mFragments.add(HomeChildFragment.newInstance("movie","2"));
+        mFragments.add(HomeChildFragment.newInstance("tv","1"));
         mFragments.add(new MangerFragment());
     }
-    /**
+/**
      * 每日推荐点击"更多"跳转
      */
     private void initRxBus() {
-        Subscription subscription = RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE, Integer.class)
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        if (integer == 0) {
-                            bindingView.vpGank.setCurrentItem(3);
-                        } else if (integer == 1) {
-                            bindingView.vpGank.setCurrentItem(1);
-                        } else if (integer == 2) {
-                            bindingView.vpGank.setCurrentItem(2);
-                        }
-                    }
-                });
-        addSubscription(subscription);
+        RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE, Integer.class)
+                .subscribe(new Observer() {
+                               @Override
+                               public void onSubscribe(Disposable d) {
+                               }
+                               @Override
+                               public void onNext(Object value) {
+                                   if ((Integer)value == 0) {
+                                       bindingView.vpGank.setCurrentItem(3);
+                                   } else if ((Integer)value == 1) {
+                                       bindingView.vpGank.setCurrentItem(1);
+                                   } else if ((Integer)value == 2) {
+                                       bindingView.vpGank.setCurrentItem(2);
+                                   }
+                               }
+                               @Override
+                               public void onError(Throwable e) {
+
+                               }
+                               @Override
+                               public void onComplete() {
+                               }
+                           }
+
+                 );
+
     }
 }

@@ -39,8 +39,6 @@ import com.example.cay.newsmovie.webview.MyNestedScrollView;
 import java.lang.reflect.Method;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -65,7 +63,6 @@ public abstract class BaseHeaderActivity<HV extends ViewDataBinding, SV extends 
     // 这个是高斯图背景的高度
     private int imageBgHeight;
     private AnimationDrawable mAnimationDrawable;
-    private CompositeSubscription mCompositeSubscription;
 
     protected <T extends View> T getView(int id) {
         return (T) findViewById(id);
@@ -396,24 +393,13 @@ public abstract class BaseHeaderActivity<HV extends ViewDataBinding, SV extends 
 
     }
 
-    public void addSubscription(Subscription s) {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        this.mCompositeSubscription.add(s);
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
+
     }
 
-    public void removeSubscription() {
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
-    }
+
 }

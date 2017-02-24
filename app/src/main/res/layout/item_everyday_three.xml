@@ -6,9 +6,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+      <!--  <include
+            android:id="@+id/head_three"
+            layout="@layout/item_everyday_title"></include>-->
         <include
             android:id="@+id/head_three"
-            layout="@layout/item_everyday_title"></include>
+            layout="@layout/item_everyday_title">
+        </include>
 
         <LinearLayout
             android:id="@+id/ll_three_one"
@@ -107,7 +111,6 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:text="3"
                     android:textColor="@color/colorContent"
                     android:textSize="12sp" />
 

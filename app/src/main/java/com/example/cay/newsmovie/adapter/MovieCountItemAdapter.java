@@ -9,17 +9,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
 import com.example.cay.newsmovie.bean.MovieBean;
+import com.example.cay.newsmovie.bean.UpDdtaBackBean;
+import com.example.cay.newsmovie.http.HttpUtils;
 import com.example.cay.newsmovie.player.MyPlayerActivity;
-import com.example.cay.newsmovie.player.PlayActivity;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
 
 import java.util.List;
 
-import okhttp3.Call;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-/**
+/**shu
  * Created by Cay on 2017/2/5.
  */
 
@@ -49,17 +50,31 @@ public class MovieCountItemAdapter extends BaseQuickAdapter<MovieBean,BaseViewHo
         });
     }
 
-    public void upCountMoviePlayernum(String id, String name, String img_url) {
-        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerCountMoviePlayerNum").addParams("name",name).addParams("movie_id",id).addParams("img_url",img_url).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+    private void upCountMoviePlayernum(String id, String name, String img_url) {
+        HttpUtils.getInstance().getMyObservableClient().upMoviePlayerData(name,id,img_url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<UpDdtaBackBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
+                    @Override
+                    public void onNext(UpDdtaBackBean value) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 }

@@ -3,7 +3,6 @@ package com.example.cay.newsmovie.base.adapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
- * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class MultipleItemNews implements MultiItemEntity {
    public static final int ONE1 = 1;

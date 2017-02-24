@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.cay.newsmovie.activity.MovieDetailActivity;
-import com.example.cay.newsmovie.app.MyApplication;
+import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;

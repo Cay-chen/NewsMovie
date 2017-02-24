@@ -22,8 +22,6 @@ import com.example.cay.newsmovie.statusbar.StatusBarUtil;
 import com.example.cay.newsmovie.utils.CommonUtils;
 import com.example.cay.newsmovie.utils.PerfectClickListener;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by jingbin on 16/12/10.
@@ -36,7 +34,6 @@ public class BaseActivity<SV extends ViewDataBinding> extends AppCompatActivity 
     private View refresh;
     private ActivityBaseBinding mBaseBinding;
     private AnimationDrawable mAnimationDrawable;
-    private CompositeSubscription mCompositeSubscription;
 
     protected <T extends View> T getView(int id) {
         return (T) findViewById(id);
@@ -164,24 +161,13 @@ public class BaseActivity<SV extends ViewDataBinding> extends AppCompatActivity 
 
     }
 
-    public void addSubscription(Subscription s) {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        this.mCompositeSubscription.add(s);
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
+
     }
 
-    public void removeSubscription() {
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
-    }
+
 }

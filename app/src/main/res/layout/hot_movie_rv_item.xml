@@ -15,12 +15,14 @@
             android:textSize="16sp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="@color/colorSubtitle"
             android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/tv_hot_movie_item_name"
             android:textSize="16sp"
             android:paddingLeft="10dp"
+            android:textColor="@color/colorSubtitle"
             android:gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_weight="5"

@@ -63,14 +63,14 @@ public class DownloadApkDialog extends Dialog {
 	}
 	/**
 	 * 设置进度条
-	 * @param progress
+	 * @param progress DD
 	 */
 	public void setProgress(int progress){
 		progressBar.setProgress(progress);
 	}
 	/**
 	 * 设置进度百分比显示
-	 * @param progress
+	 * @param progress DD
 	 */
 	public void setProgressText(int progress){
 		tvProgress.setText(progress+"%");

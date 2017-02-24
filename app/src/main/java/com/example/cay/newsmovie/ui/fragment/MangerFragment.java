@@ -2,7 +2,6 @@ package com.example.cay.newsmovie.ui.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,30 +13,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.activity.MovieDetailActivity;
+import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.adapter.MovieAdapter;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.bean.MovieTopbarBean;
 import com.example.cay.newsmovie.databinding.FragmentMovieBinding;
 import com.example.cay.newsmovie.databinding.HeaderMovieItemBinding;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.example.cay.newsmovie.http.HttpUtils;
 
 import java.util.List;
 
-import okhttp3.Call;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
  * 电影
  */
 public class MangerFragment extends BaseFragment<FragmentMovieBinding> implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener  {
-    private static final String TAG = "Cay";
+
     private RecyclerView mRecyclerView;
     private ImageView mHeadImageView;
     private TextView mHeadTextView1;
@@ -45,7 +45,6 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderMovieItemBinding mHeaderBinding;
     private boolean isFirst = true;//是否第一次请求
-    private String position = "0";
     private MovieAdapter movieAdapter;
     private String img_url;
     private String nameId;
@@ -66,7 +65,7 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
             @Override
             public void onClick(View v) {
                 if (!img_url.isEmpty()) {
-                    MovieDetailActivity.startE((Activity) getContext(), nameId, img_url, null);
+                    MovieDetailActivity.start((Activity) getContext(), nameId, img_url, null);
                 }
             }
         });
@@ -85,27 +84,39 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
             return;
         }
         loadTopbarData();
-        httpGetData(position, "15", true);
+        httpGetData(true,false);
     }
 
     private void loadTopbarData() {
-        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerTopbarData").addParams("type", "manga").build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+        HttpUtils.getInstance().getMyObservableClient().getTopBarData("manga")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<MovieTopbarBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
-                List<MovieTopbarBean> list = JSON.parseArray(response, MovieTopbarBean.class);
-                MovieTopbarBean movieTopbarBean = list.get(0);
-                img_url = movieTopbarBean.getImg_url();
-                nameId = movieTopbarBean.getMovie_id();
-                Glide.with(getContext()).load(movieTopbarBean.getImg_url()).into(mHeadImageView);
-                mHeadTextView1.setText(movieTopbarBean.getName());
-                mHeadTextView2.setText(movieTopbarBean.getTitle());
-            }
-        });
+                    @Override
+                    public void onNext(List<MovieTopbarBean> list) {
+                        MovieTopbarBean movieTopbarBean = list.get(0);
+                        img_url = movieTopbarBean.getImg_url();
+                        nameId = movieTopbarBean.getMovie_id();
+                        Glide.with(getContext()).load(movieTopbarBean.getImg_url()).into(mHeadImageView);
+                        mHeadTextView1.setText(movieTopbarBean.getName());
+                        mHeadTextView2.setText(movieTopbarBean.getTitle());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void initAdapter(List<MovieDataBean> data) {
@@ -113,7 +124,6 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
         mRecyclerView.setAdapter(movieAdapter);
         movieAdapter.setOnLoadMoreListener(this);
         movieAdapter.addHeaderView(mHeaderBinding.getRoot());
-        position = String.valueOf(data.size());
         movieAdapter.setEnableLoadMore(true);
         isFirst = false;
         showContentView();
@@ -123,33 +133,51 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
 
     }
 
-    private void httpGetData(final String position1, String num, final boolean first) {
-        OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/FindDataServer").addParams("type", "movie_type").addParams("value", "动画").addParams("position", position).addParams("num", num).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                if (first) {
-                    showError();
-                } else {
-                    movieAdapter.loadMoreFail();                }
+    private void httpGetData(final boolean first, final boolean isRefresh) {
+        HttpUtils.getInstance().getMyObservableClient().singelRequirementFindData("movie_type","动画")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<MovieDataBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                List<MovieDataBean> list = JSON.parseArray(response, MovieDataBean.class);
-                if (first) {
-                    initAdapter(list);
-                } else {
-                    movieAdapter.addData(list);
-                    position = String.valueOf(movieAdapter.getData().size());
-                    movieAdapter.loadMoreComplete();
-                    if (list.size() < 9) {
-                        movieAdapter.loadMoreEnd(false);
                     }
-                }
 
-            }
-        });
+                    @Override
+                    public void onNext(List<MovieDataBean> list) {
+                        if (first) {
+                            initAdapter(list);
+                        } else {
+                            if (isRefresh) {
+                                movieAdapter.setNewData(list);
+
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                movieAdapter.setEnableLoadMore(true);
+                                showContentView();
+                            } else {
+                                movieAdapter.addData(list);
+                                movieAdapter.loadMoreComplete();
+                                if (list.size() < 9) {
+                                    movieAdapter.loadMoreEnd(false);
+                                }
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (first) {
+                            showError();
+                        } else {
+                            movieAdapter.loadMoreFail();                }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
 
@@ -158,7 +186,7 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
         mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                httpGetData(position, "9", false);
+                httpGetData(false,false);
             }
         },800);
     }
@@ -168,27 +196,10 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
         showLoading();
         loadTopbarData();
         if (isFirst) {
-            httpGetData(position, "15", true);
+            httpGetData(true,false);
         } else {
-            OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/FindDataServer").addParams("type", "movie_type").addParams("value", "动画").addParams("position", "0").addParams("num", "15").build().execute(new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    showError();
-                }
+            httpGetData(false,true);
 
-                @Override
-                public void onResponse(String response, int id) {
-                    List<MovieDataBean> list = JSON.parseArray(response, MovieDataBean.class);
-                    movieAdapter.setNewData(list);
-                    position = String.valueOf(list.size());
-                    if (list.size() < 15) {
-                        movieAdapter.loadMoreEnd(true);
-                    }
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    movieAdapter.setEnableLoadMore(true);
-                    showContentView();
-                }
-            });
         }
 
     }

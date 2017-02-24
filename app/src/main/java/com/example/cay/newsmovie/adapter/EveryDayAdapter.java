@@ -3,6 +3,7 @@ package com.example.cay.newsmovie.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,11 +14,10 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.activity.MovieDetailActivity;
+import com.example.cay.newsmovie.http.RxBus.RxBus;
+import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
+import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.base.adapter.MultipleItem;
-import com.example.cay.newsmovie.utils.rx.RxBus;
-import com.example.cay.newsmovie.utils.rx.RxCodeConstants;
-import com.example.cay.newsmovie.webview.WebViewActivity;
 
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         switch (helper.getItemViewType()) {
             case MultipleItem.ONE:
-                helper.setVisible(R.id.head_one, item.getIsTitle());
+               helper.setVisible(R.id.head_one, item.getIsTitle());
                 mView = helper.getView(R.id.head_one);
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_one_photo);
@@ -60,7 +60,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
                 helper.setText(R.id.tv_one_photo_title, item.getCon1());
                 break;
             case MultipleItem.TWO:
-                helper.setVisible(R.id.head_two, item.getIsTitle());
+               helper.setVisible(R.id.head_two, item.getIsTitle());
                 mView = helper.getView(R.id.head_two);
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_two_one_one);
@@ -73,7 +73,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
                 helper.setText(R.id.tv_two_one_two_title, item.getCon2());
                 break;
             case MultipleItem.TRE:
-                helper.setVisible(R.id.head_three, item.getIsTitle());
+               helper.setVisible(R.id.head_three, item.getIsTitle());
                 mView = helper.getView(R.id.head_three);
                 headerSetting(item);
                 mImageView = helper.getView(R.id.iv_three_one_one);
@@ -110,6 +110,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
             mView.findViewById(R.id.ll_title_more).setVisibility(View.GONE);
             mImageViewTitle.setImageResource(R.drawable.everydady_welfare);
         }else if (item.getTitle().equals("广告")) {
+            Log.i(TAG, "headerSetting: ");
             mView.findViewById(R.id.ll_title_more).setVisibility(View.GONE);
             mImageViewTitle.setImageResource(R.drawable.everydady_ad);
         }
@@ -120,7 +121,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
             @Override
             public void onClick(View v) {
                 if (type.equals("1")) {
-                    MovieDetailActivity.startE((Activity) context, id, img_url, null);
+                    MovieDetailActivity.start((Activity) context, id, img_url, null);
                 } else {
                    Uri issuesUrl = Uri.parse(gaoguang_url.trim());
                     Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);
@@ -134,7 +135,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxBus.getDefault().post(RxCodeConstants.JUMP_TYPE, type);
+               RxBus.getDefault().send(RxCodeConstants.JUMP_TYPE, type);
 
             }
         });

@@ -17,8 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.cay.newsmovie.R;
 import com.example.cay.newsmovie.utils.PerfectClickListener;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+
 
 /**
  * 是没有title的Fragment
@@ -37,9 +36,8 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     protected RelativeLayout mContainer;
     // 动画
     private AnimationDrawable mAnimationDrawable;
-    private CompositeSubscription mCompositeSubscription;
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View ll = inflater.inflate(R.layout.fragment_base, null);
@@ -180,24 +178,12 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
         }
     }
 
-    public void addSubscription(Subscription s) {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        this.mCompositeSubscription.add(s);
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
+
     }
 
-    public void removeSubscription() {
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
-    }
 }
