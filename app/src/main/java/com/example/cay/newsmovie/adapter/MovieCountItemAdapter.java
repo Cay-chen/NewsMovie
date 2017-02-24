@@ -40,7 +40,6 @@ public class MovieCountItemAdapter extends BaseQuickAdapter<MovieBean,BaseViewHo
                 upCountMoviePlayernum(item.getMovieId(),item.getAllName(),item.getImg_url());
                 if (item.getType() == 1) {
                     MyPlayerActivity.star(context,item.getMovieUrl(),item.getMovieName());
-                   // PlayActivity.actionStart(context, item.getMovieUrl(), item.getMovieName());
                 } else {
                     Uri issuesUrl = Uri.parse(item.getMovieUrl().trim());
                     Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);

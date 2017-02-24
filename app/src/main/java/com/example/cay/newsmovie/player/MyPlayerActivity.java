@@ -15,23 +15,20 @@ import com.example.cay.newsmovie.bean.PlayBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class MyPlayerActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private JCVideoPlayerStandard jcVideoPlayerStandard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_player);
         Intent intent = getIntent();
-        jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
+        MyJcPlayer jcVideoPlayerStandard = (MyJcPlayer) findViewById(R.id.videoplayer);
         jcVideoPlayerStandard.setUp(intent.getStringExtra("url")
                 , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, intent.getStringExtra("name"));
-        //JCVideoPlayerStandard.startFullscreen(this, JCVideoPlayerStandard.class, intent.getStringExtra("url"), intent.getStringExtra("name"));
-
-        //jcVideoPlayerStandard.thumbImageView.setImageResource(R.mipmap.ic_launcher);
         jcVideoPlayerStandard.startButton.performClick();
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_play);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -56,18 +53,24 @@ public class MyPlayerActivity extends AppCompatActivity {
         if (JCVideoPlayer.backPress()) {
             return;
         }
-
      super.onBackPressed();
     }
-   /* @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
-    }*/
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        JCMediaManager.instance().mediaPlayer.start();
+
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        jcVideoPlayerStandard.startButton.performClick();
+        JCMediaManager.instance().mediaPlayer.pause();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

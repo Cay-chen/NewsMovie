@@ -55,9 +55,6 @@ public *;
 #可以防止一个误报的 warning 导致无法成功编译，如果编译使用的 Android 版本是 23。
 -dontwarn com.xiaomi.push.**
 
-# vitamio混淆
--keep class io.vov.utils.** { *; }
--keep class io.vov.vitamio.** { *; }
 
 
 
@@ -90,4 +87,14 @@ public *;
 -keepattributes *Annotation
 -keepattributes Signature
 
--keep class fm.jiecao.**{*;}
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}

@@ -18,7 +18,7 @@ android {
     buildTypes {
         release {
             //混淆
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -53,10 +53,9 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     compile 'com.youth.banner:banner:1.4.8'
     compile 'com.cocosw:bottomsheet:1.+@aar'
-    compile project(':vitamio2')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('libs/MiPush_SDK_Client_3_2_2.jar')
-    compile 'fm.jiecao:jiecaovideoplayer:5.4'
+    compile 'fm.jiecao:jiecaovideoplayer:5.5'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'

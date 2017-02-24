@@ -1,108 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".player.MyPlayerActivity">
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    <com.example.cay.newsmovie.player.MyJcPlayer
         android:id="@+id/videoplayer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp" />
+
     <RelativeLayout
-        android:layout_marginTop="3dp"
         android:id="@+id/rl_share_down"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/videoplayer"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="3dp">
+
         <LinearLayout
-            android:layout_toLeftOf="@+id/tv_line"
+
             android:id="@+id/play_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_line"
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_gravity="center_vertical"
+                android:id="@+id/imageButton"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/player_bar_share"
-                android:id="@+id/imageButton" />
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/player_bar_share" />
 
             <TextView
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="分享"/>
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="分享"
+                android:textSize="12sp" />
 
         </LinearLayout>
-       <TextView
-           android:id="@+id/tv_line"
-           android:layout_centerVertical="true"
-           android:layout_toLeftOf="@+id/ll_down"
-            android:layout_marginLeft="9dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="9dp"
-            android:layout_marginBottom="3dp"
+
+        <TextView
+            android:id="@+id/tv_line"
             android:layout_width="1dp"
             android:layout_height="20dp"
-            android:background="@color/colorLine"/>
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="3dp"
+            android:layout_toLeftOf="@+id/ll_down"
+            android:background="@color/colorLine" />
+
         <LinearLayout
             android:id="@+id/ll_down"
-            android:layout_marginRight="8dp"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
             android:orientation="vertical">
+
             <ImageButton
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/player_bar_download"/>
+                android:background="@drawable/player_bar_download" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
                 android:text="下载"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="12sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
             <ImageView
-                android:layout_marginLeft="8dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@mipmap/play_num"/>
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/play_num" />
+
             <TextView
-                android:layout_marginLeft="3dp"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:text="20.2万"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:text="20.2万"
+                android:textSize="10sp" />
         </LinearLayout>
     </RelativeLayout>
-<TextView
-    android:layout_marginTop="3dp"
-    android:layout_below="@+id/rl_share_down"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="@color/colorTheme"/>
+
     <TextView
+        android:id="@+id/linee"
         android:layout_width="match_parent"
-        android:layout_margin="5dp"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_share_down"
+        android:layout_marginTop="3dp"
+        android:background="@color/colorTheme" />
+
+    <TextView
+        android:id="@+id/pinglun"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="评论列表"/>
+        android:layout_below="@+id/linee"
+        android:layout_margin="5dp"
+        android:text="评论列表" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_play"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pinglun"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/et_player"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="4"
+            android:background="@drawable/shape_notclickbg" />
+        <Button
+            android:id="@+id/btn_player"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_tijiao_rank"
+            android:text="发表"
+            android:textColor="@color/button_submit" />
+    </LinearLayout>
+</RelativeLayout>

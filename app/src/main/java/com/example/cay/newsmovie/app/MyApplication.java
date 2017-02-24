@@ -14,7 +14,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
 
-import io.vov.vitamio.Vitamio;
 
 
 /**
@@ -73,7 +72,6 @@ public class MyApplication extends Application {
 
         /**********************小米推送结束***************************/
 
-        Vitamio.isInitialized(getApplicationContext());
 
     }
 
