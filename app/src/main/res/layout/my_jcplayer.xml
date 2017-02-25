@@ -94,7 +94,7 @@
         android:background="@drawable/jc_click_back_tiny_selector"
         android:visibility="visible" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -110,13 +110,46 @@
             android:src="@drawable/jc_click_back_selector" />
 
         <TextView
+            android:layout_centerHorizontal="true"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/mediacontroller_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="17:22"
+            android:textColor="#ffffff"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/mediacontroller_imgBattery"
+            android:layout_width="55dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/mediacontroller_time"
+            android:gravity="center_vertical"
+            android:src="@drawable/battery_4"/>
+
+        <TextView
+            android:id="@+id/mediacontroller_Battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-10dp"
+            android:layout_toLeftOf="@+id/mediacontroller_imgBattery"
+            android:gravity="center_vertical"
+            android:text="45%"
+            android:textColor="#ffffff"
+            android:textSize="15sp"/>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/loading"

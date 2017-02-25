@@ -1,10 +1,14 @@
 package com.example.cay.newsmovie.player;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.os.Message;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.cay.newsmovie.R;
 
@@ -15,6 +19,10 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  */
 
 public class MyJcPlayer extends JCVideoPlayerStandard {
+    public TextView mTime;
+    public TextView mBatt;
+    public ImageView mImgBatt;
+
     public MyJcPlayer(Context context) {
         super(context);
     }
@@ -25,9 +33,12 @@ public class MyJcPlayer extends JCVideoPlayerStandard {
     @Override
     public void init(Context context) {
         super.init(context);
-
+        mTime = (TextView) findViewById(R.id.mediacontroller_time);
+        mBatt = (TextView) findViewById(R.id.mediacontroller_Battery);
+        mImgBatt = (ImageView) findViewById(R.id.mediacontroller_imgBattery);
 
     }
+
 
     @Override
     public int getLayoutId() {

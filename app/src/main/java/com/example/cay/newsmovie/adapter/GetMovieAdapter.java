@@ -1,6 +1,5 @@
 package com.example.cay.newsmovie.adapter;
 
-import android.content.Context;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -9,7 +8,7 @@ import com.example.cay.newsmovie.bean.IssueBean;
 
 import java.util.List;
 
-/**
+/**dd
  * Created by Cay on 2017/2/16.
  */
 

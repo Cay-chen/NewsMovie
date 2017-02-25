@@ -3,7 +3,6 @@ package com.example.cay.newsmovie.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +30,6 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
     private ImageView mImageView;
     private View mView;
     private TextView textView;
-    private ImageView mImageViewTitle;
     private LinearLayout mLinearLayout;
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -95,7 +93,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
     public void headerSetting(MultipleItem item){
         textView = (TextView) mView.findViewById(R.id.tv_title_type);
         textView.setText(item.getTitle());
-        mImageViewTitle = (ImageView) mView.findViewById(R.id.iv_title_type);
+        ImageView mImageViewTitle = (ImageView) mView.findViewById(R.id.iv_title_type);
         mLinearLayout = (LinearLayout) mView.findViewById(R.id.ll_title_more);
         if (item.getTitle().equals("动漫")) {
             mImageViewTitle.setImageResource(R.drawable.everydady_manga);
@@ -110,7 +108,6 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
             mView.findViewById(R.id.ll_title_more).setVisibility(View.GONE);
             mImageViewTitle.setImageResource(R.drawable.everydady_welfare);
         }else if (item.getTitle().equals("广告")) {
-            Log.i(TAG, "headerSetting: ");
             mView.findViewById(R.id.ll_title_more).setVisibility(View.GONE);
             mImageViewTitle.setImageResource(R.drawable.everydady_ad);
         }
