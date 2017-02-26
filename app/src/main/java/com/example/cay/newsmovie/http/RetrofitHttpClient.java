@@ -1,6 +1,7 @@
 package com.example.cay.newsmovie.http;
 
 import com.example.cay.newsmovie.bean.BannerDataBean;
+import com.example.cay.newsmovie.bean.CommentDataBean;
 import com.example.cay.newsmovie.bean.FirstRxDataBean;
 import com.example.cay.newsmovie.bean.HotMovieBean;
 import com.example.cay.newsmovie.bean.IssueBean;
@@ -202,8 +203,29 @@ public interface RetrofitHttpClient {
     @GET("VMovie/FirstRxDataServer")
     Observable<List<FirstRxDataBean>> getEveryDayRvData();
 
+    /**
+     * 版本更新检测
+     * @return
+     */
     @GET("VMovie/VersionUpdataServer")
     Observable<List<VersionUpdataBean>> verJianCe();
+
+    /**
+     * 上穿评论
+     * @param name 电影名字
+     * @param comment 评论
+     * @return dd
+     */
+    @POST("VMovie/ServerComment")
+    Observable<UpDdtaBackBean> upCommentData(@Query("name") String name, @Query("comment") String comment);
+    /**
+     * 获取评论数据
+     * @param position 其实位置
+     * @param num 数量
+     * @return dd
+     */
+    @GET("VMovie/ServerGetCommentData")
+    Observable<List<CommentDataBean>> getCommentData(@Query("name")String name, @Query("position") String position, @Query("num") String num);
 
 }
 

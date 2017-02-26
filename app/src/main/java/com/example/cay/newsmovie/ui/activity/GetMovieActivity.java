@@ -68,7 +68,7 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
         mSwipeRefreshLayout.setOnRefreshListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
-        laodData("0", "15", false);
+        laodData("0", "10", false);
     }
 
     private void initAdapter(List<IssueBean> data) {
@@ -113,7 +113,10 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
                                     } else {
                                         mAdapter.setNewData(list);
                                         mAdapter.loadMoreComplete();
-                                        mAdapter.loadMoreEnd(false);
+                                        if (list.size() < 10) {
+                                            mAdapter.loadMoreEnd(true);
+                                        }
+                                        nowPosition = String.valueOf(mAdapter.getData().size());
                                         mSwipeRefreshLayout.setRefreshing(false);
                                         showContentView();
                                     }
@@ -154,7 +157,7 @@ public class GetMovieActivity extends BaseActivity<ActivityIssueBinding> impleme
     public void onRefresh() {
         showLoading();
         nowPosition = "0";
-        laodData(nowPosition, "15", false);
+        laodData(nowPosition, "10", false);
     }
 
     private void submit() {

@@ -15,6 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+ -ignorewarnings
 
 # glide 的混淆代码
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -26,10 +27,6 @@ public *;
 -keep class com.chad.library.adapter.** {
 *;
 }
-
-#okhttputils
--dontwarn com.zhy.http.**
--keep class com.zhy.http.**{*;}
 
 
 #okhttp
@@ -87,7 +84,9 @@ public *;
 -keepattributes *Annotation
 -keepattributes Signature
 
--dontwarn sun.misc.**
+
+
+
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
    long producerIndex;
    long consumerIndex;

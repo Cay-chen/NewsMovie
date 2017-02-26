@@ -34,13 +34,13 @@ public class VersionUpdateManager {
 	 * APK 名字
 	 */
 
-	private static final String APK_NAME = "xiaowei.apk";
+	private static final String APK_NAME = "newsmovie.apk";
 
 	/**
 	 * 版本储存地址
 	 */
 
-	private static final String SAVE_DOWNLOAD_APK_PATH = "/xiaowei/download";
+	private static final String SAVE_DOWNLOAD_APK_PATH = "/newsmovie/download";
 
 	/**
 	 * 上下文
@@ -112,6 +112,8 @@ public class VersionUpdateManager {
 				downloadDialog.setProgresstextColor(context.getResources().getColor(R.color.cl_43cfac));
 				break;
 			case DOWNLOAD_FINISH:
+				//卸载APP
+			//	unstallApp();
 				// 安装apk
 				installApk();
 				break;
@@ -290,7 +292,13 @@ public class VersionUpdateManager {
 
 		}
 	}
-	
+	//卸载应用程序
+	public void unstallApp(){
+		Intent uninstall_intent = new Intent();
+		uninstall_intent.setAction(Intent.ACTION_DELETE);
+		uninstall_intent.setData(Uri.parse("package:com.example.cay.newsmovie"));
+		context.startActivity(uninstall_intent);
+	}
 	/**
 	 * 安装apk
 	 */

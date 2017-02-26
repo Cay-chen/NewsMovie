@@ -37,7 +37,7 @@
         <!-- 配置APP版本号 -->
         <meta-data
             android:name="BUGLY_APP_VERSION"
-            android:value="1.2" />
+            android:value="1.3" />
         <!-- 配置APP渠道号 -->
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
@@ -76,6 +76,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.menu.NavHomePageActivity"
+            android:theme="@style/MyScrollPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.menu.NavDeedBackActivity"
@@ -91,19 +92,7 @@
             android:name=".ui.activity.MovieDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyScrollPage" />
-        <activity
-            android:name="io.vov.vitamio.activity.InitActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+
         /*****************小米推送server 开始***********/
         <!-- android:process=":pushservice" -->
 

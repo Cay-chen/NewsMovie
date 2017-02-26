@@ -111,6 +111,7 @@
 
         <TextView
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,6 +126,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:text="17:22"
+            android:visibility="invisible"
             android:textColor="#ffffff"
             android:textSize="15sp"/>
 
@@ -134,11 +136,13 @@
             android:layout_height="26dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:visibility="invisible"
             android:layout_toLeftOf="@+id/mediacontroller_time"
             android:gravity="center_vertical"
             android:src="@drawable/battery_4"/>
 
         <TextView
+            android:visibility="invisible"
             android:id="@+id/mediacontroller_Battery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
