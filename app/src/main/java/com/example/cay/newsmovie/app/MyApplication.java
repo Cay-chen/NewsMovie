@@ -7,6 +7,7 @@ import android.os.Process;
 import android.util.Log;
 
 import com.example.cay.newsmovie.http.HttpUtils;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
@@ -71,7 +72,13 @@ public class MyApplication extends Application {
         Logger.setLogger(this, newLogger);
 
         /**********************小米推送结束***************************/
-
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
 
     }
 

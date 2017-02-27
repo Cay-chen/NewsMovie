@@ -40,6 +40,8 @@ import com.example.cay.newsmovie.ui.menu.NavDownloadActivity;
 import com.example.cay.newsmovie.ui.menu.NavHomePageActivity;
 import com.example.cay.newsmovie.utils.CommonUtils;
 import com.example.cay.newsmovie.utils.ImgLoadUtil;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         versionUpdateJianCe();
        // MiPushClient.setAlias(this,"0510016",null);
         upCountLogin();
+      //  RefWatcher refWatcher = LeakCanary.install(MainActivity.class);
+
     }
 
     private void initVivws() {
