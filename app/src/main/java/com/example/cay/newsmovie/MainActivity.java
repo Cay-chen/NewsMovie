@@ -21,16 +21,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.cay.newsmovie.VerUpdata.VersionUpdateManager;
-import com.example.cay.newsmovie.http.RxBus.RxBus;
-import com.example.cay.newsmovie.http.RxBus.RxBusBaseMessage;
-import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
-import com.example.cay.newsmovie.ui.activity.SearchMovieActivity;
 import com.example.cay.newsmovie.adapter.MyFragmentPagerAdapter;
 import com.example.cay.newsmovie.bean.UpDdtaBackBean;
 import com.example.cay.newsmovie.bean.VersionUpdataBean;
 import com.example.cay.newsmovie.databinding.ActivityMainBinding;
 import com.example.cay.newsmovie.http.HttpUtils;
+import com.example.cay.newsmovie.http.RxBus.RxBus;
+import com.example.cay.newsmovie.http.RxBus.RxBusBaseMessage;
+import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
 import com.example.cay.newsmovie.statusbar.StatusBarUtil;
+import com.example.cay.newsmovie.ui.activity.SearchMovieActivity;
 import com.example.cay.newsmovie.ui.fragment.AllMovieFragment;
 import com.example.cay.newsmovie.ui.fragment.MovieHomeFragment;
 import com.example.cay.newsmovie.ui.fragment.NewsFragment;
@@ -40,21 +40,15 @@ import com.example.cay.newsmovie.ui.menu.NavDownloadActivity;
 import com.example.cay.newsmovie.ui.menu.NavHomePageActivity;
 import com.example.cay.newsmovie.utils.CommonUtils;
 import com.example.cay.newsmovie.utils.ImgLoadUtil;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -70,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout llTitleMenu;
     private DrawerLayout drawerLayout;
     private ViewPager vpContent;
-
+    private CompositeDisposable disposable;
 
 
     @Override
@@ -277,28 +271,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 每日推荐点击"新电影热映榜"跳转
      */
     private void initRxBus() {
-         RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE_TO_ONE, RxBusBaseMessage.class)
-                .subscribe(new Observer() {
+        disposable = new CompositeDisposable();
+        disposable.add(RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE_TO_ONE, RxBusBaseMessage.class)
+                .subscribe(new Consumer() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Object value) {
+                    public void accept(Object o) throws Exception {
                         mBinding.include.vpContent.setCurrentItem(1);
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                }));
     }
 
     /**
@@ -416,4 +396,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
+    }
 }

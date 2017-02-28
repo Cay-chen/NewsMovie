@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.cay.newsmovie.R;
+import com.example.cay.newsmovie.app.MyApplication;
 import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.adapter.MovieAdapter;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
@@ -69,7 +70,7 @@ public class HomeChildFragment extends BaseFragment<FragmentMovieBinding> implem
             @Override
             public void onClick(View v) {
                 if (!img_url.isEmpty()) {
-                    MovieDetailActivity.start((Activity) getContext(), nameId, img_url, null);
+                    MovieDetailActivity.start(getActivity(), nameId, img_url, null);
                 }
             }
         });

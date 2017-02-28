@@ -136,34 +136,39 @@ public class AllMovieFragment extends BaseFragment<FragmentOneBinding> implement
     @Override
     public void onRefresh() {
         showLoading();
-        movieDetailsAdapter.setEnableLoadMore(false);
-        nowPosition = "0";
-        switch (loadWhere) {
-            case 0:
-                httpGetData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 1:
-                httpGetData("type", "1", "city", "1", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 2:
-                httpGetData("type", "2", "city", "1", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 3:
-                httpGetData("type", "1", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 4:
-                httpGetData("type", "2", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 5:
-                httpGetData("type", "1", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 6:
-                httpGetData("type", "2", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
-            case 7:
-                httpGetData("movie_type", "动画", null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
-                break;
+        if (isFirst) {
+            httpGetData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
+        } else {
+            movieDetailsAdapter.setEnableLoadMore(false);
+            nowPosition = "0";
+            switch (loadWhere) {
+                case 0:
+                    httpGetData(null, null, null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 1:
+                    httpGetData("type", "1", "city", "1", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 2:
+                    httpGetData("type", "2", "city", "1", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 3:
+                    httpGetData("type", "1", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 4:
+                    httpGetData("type", "2", "city", "2", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 5:
+                    httpGetData("type", "1", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 6:
+                    httpGetData("type", "2", "city", "4", nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+                case 7:
+                    httpGetData("movie_type", "动画", null, null, nowPosition, FIRST_LOAD_MORE_NUM, true);
+                    break;
+            }
         }
+
     }
 
     /**
@@ -300,6 +305,7 @@ public class AllMovieFragment extends BaseFragment<FragmentOneBinding> implement
 
                             @Override
                             public void onError(Throwable e) {
+                                showError();
                                 if (isRefresh) {
                                     mSwipeRefreshLayout.setRefreshing(false);
                                 } else {
@@ -407,4 +413,5 @@ public class AllMovieFragment extends BaseFragment<FragmentOneBinding> implement
         }
 
     }
+
 }

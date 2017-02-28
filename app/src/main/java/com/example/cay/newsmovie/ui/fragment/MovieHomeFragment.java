@@ -1,5 +1,6 @@
 package com.example.cay.newsmovie.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -20,7 +21,9 @@ import org.reactivestreams.Subscription;
 import java.util.ArrayList;
 
 import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -31,6 +34,13 @@ import io.reactivex.disposables.Disposable;
 public class MovieHomeFragment extends BaseFragment<FragmentMovieHomeBinding> {
     private ArrayList<String> mTitleList = new ArrayList<>(4);
     private ArrayList<Fragment> mFragments = new ArrayList<>(4);
+    private CompositeDisposable disposable;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     @Override
     public int setContent() {
         return  R.layout.fragment_movie_home;
@@ -69,31 +79,28 @@ public class MovieHomeFragment extends BaseFragment<FragmentMovieHomeBinding> {
      * 每日推荐点击"更多"跳转
      */
     private void initRxBus() {
-        RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE, Integer.class)
-                .subscribe(new Observer() {
-                               @Override
-                               public void onSubscribe(Disposable d) {
-                               }
-                               @Override
-                               public void onNext(Object value) {
-                                   if ((Integer)value == 0) {
-                                       bindingView.vpGank.setCurrentItem(3);
-                                   } else if ((Integer)value == 1) {
-                                       bindingView.vpGank.setCurrentItem(1);
-                                   } else if ((Integer)value == 2) {
-                                       bindingView.vpGank.setCurrentItem(2);
-                                   }
-                               }
-                               @Override
-                               public void onError(Throwable e) {
+        disposable = new CompositeDisposable();
+        disposable.add(   RxBus.getDefault().toObservable(RxCodeConstants.JUMP_TYPE, Integer.class)
+                .subscribe(new Consumer() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        if ((Integer)o == 0) {
+                            bindingView.vpGank.setCurrentItem(3);
+                        } else if ((Integer)o == 1) {
+                            bindingView.vpGank.setCurrentItem(1);
+                        } else if ((Integer)o == 2) {
+                            bindingView.vpGank.setCurrentItem(2);
+                        }
+                    }
+                }
+                 ));
 
-                               }
-                               @Override
-                               public void onComplete() {
-                               }
-                           }
+    }
 
-                 );
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        //取消订阅
+        disposable.clear();
     }
 }

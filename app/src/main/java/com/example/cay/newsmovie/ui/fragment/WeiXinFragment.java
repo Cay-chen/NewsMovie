@@ -34,6 +34,7 @@ public class WeiXinFragment extends BaseFragment<FragmentNewsTopBinding> {
     private RecyclerView mRecyclerView;
     private NewsWeiXinAdapter newsDataAdapter;
     private MainActivity activity;
+    private boolean isFirst=true;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -63,7 +64,9 @@ public class WeiXinFragment extends BaseFragment<FragmentNewsTopBinding> {
     }
     @Override
     protected void loadData() {
-
+        if (!isFirst) {
+            return;
+        }
         HttpUtils.getInstance().getJuHeDataUtil().getWeiXinData(WEIXIN_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<WeiXinBackBean>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -75,6 +78,7 @@ public class WeiXinFragment extends BaseFragment<FragmentNewsTopBinding> {
                 newsDataAdapter = new NewsWeiXinAdapter(getContext(), R.layout.news_weixin_item, value.getResult().getList());
                 mRecyclerView.setAdapter(newsDataAdapter);
                 showContentView();
+                isFirst = false;
                 newsDataAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                     @Override
                     public void onLoadMoreRequested() {

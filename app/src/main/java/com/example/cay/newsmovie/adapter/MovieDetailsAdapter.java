@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
+import com.example.cay.newsmovie.app.MyApplication;
 import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 import com.example.cay.newsmovie.utils.CommonUtils;
@@ -51,7 +52,7 @@ public class MovieDetailsAdapter extends BaseQuickAdapter<MovieDataBean,BaseView
             @Override
             protected void onNoDoubleClick(View v) {
                 mImageView1=helper.getView(R.id.iv_one_photo);
-            MovieDetailActivity.start((Activity) context, item.getId(),item.getImg_url(),mImageView1);
+            MovieDetailActivity.start((Activity)context, item.getId(),item.getImg_url(),mImageView1);
 
             }
         });

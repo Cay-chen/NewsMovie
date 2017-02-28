@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
+import com.example.cay.newsmovie.app.MyApplication;
 import com.example.cay.newsmovie.http.RxBus.RxBus;
 import com.example.cay.newsmovie.http.RxBus.RxCodeConstants;
 import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
@@ -118,7 +119,7 @@ public class EveryDayAdapter extends BaseMultiItemQuickAdapter<MultipleItem, Bas
             @Override
             public void onClick(View v) {
                 if (type.equals("1")) {
-                    MovieDetailActivity.start((Activity) context, id, img_url, null);
+                    MovieDetailActivity.start((Activity)context, id, img_url, null);
                 } else {
                    Uri issuesUrl = Uri.parse(gaoguang_url.trim());
                     Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);

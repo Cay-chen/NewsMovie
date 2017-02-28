@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -36,7 +35,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  * 继承基类而写的电影详情页 2016-12-13
  */
 public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBinding, ActivityOneMovieDetailBinding> {
-    private static final String TAG = "Cay";
     private String ip = null;
     private String movieId;
     private String img_url;
@@ -62,7 +60,6 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
     }
 
     private void onLoadData(String id) {
-        Log.i(TAG, "onLoadData: "+id);
         HttpUtils.getInstance().getMyObservableClient().singelRequirementFindData("id",id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -284,7 +281,6 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
                     @Override
                     public void onNext(UpDdtaBackBean value) {
                         ip = value.getResMsg().trim();
-                        Log.i(TAG, "onNext: "+ip);
                         mOnRefrse = 1;
                         onLoadData(movieId);//  trim() 出去两边空格
                     }

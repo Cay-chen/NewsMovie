@@ -1,7 +1,6 @@
 package com.example.cay.newsmovie.ui.fragment;
 
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.cay.newsmovie.R;
-import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.adapter.MovieAdapter;
 import com.example.cay.newsmovie.base.adapter.BaseFragment;
 import com.example.cay.newsmovie.bean.MovieDataBean;
@@ -24,6 +22,7 @@ import com.example.cay.newsmovie.bean.MovieTopbarBean;
 import com.example.cay.newsmovie.databinding.FragmentMovieBinding;
 import com.example.cay.newsmovie.databinding.HeaderMovieItemBinding;
 import com.example.cay.newsmovie.http.HttpUtils;
+import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 
 import java.util.List;
 
@@ -65,7 +64,7 @@ public class MangerFragment extends BaseFragment<FragmentMovieBinding> implement
             @Override
             public void onClick(View v) {
                 if (!img_url.isEmpty()) {
-                    MovieDetailActivity.start((Activity) getContext(), nameId, img_url, null);
+                    MovieDetailActivity.start(getActivity(), nameId, img_url, null);
                 }
             }
         });

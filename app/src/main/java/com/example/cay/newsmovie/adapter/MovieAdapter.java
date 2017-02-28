@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cay.newsmovie.R;
+import com.example.cay.newsmovie.app.MyApplication;
 import com.example.cay.newsmovie.ui.activity.MovieDetailActivity;
 import com.example.cay.newsmovie.bean.MovieDataBean;
 

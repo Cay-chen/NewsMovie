@@ -102,23 +102,10 @@ public class HotMovieActivity extends AppCompatActivity implements BaseQuickAdap
 
                     }
                 });
-               /* OkHttpUtils.get().url("http://60.205.183.88:8080/VMovie/ServerGetHotMovieData").addParams("position",position).addParams("num",num).build().execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
 
-
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        List<HotMovieBean> list = JSON.parseArray(response, HotMovieBean.class);
-
-                    }
-                });*/
     }
     private void initAdapter(List<HotMovieBean> data) {
-        mAdapter = new HotMovieAdapter(this,R.layout.hot_movie_rv_item, data);
+        mAdapter = new HotMovieAdapter(HotMovieActivity.this,R.layout.hot_movie_rv_item, data);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
         isFirst = false;
